@@ -57,7 +57,7 @@ button:hover {
   cursor: not-allowed;
 }
 
-/* Подсветка ошибочных полей (установите aria-invalid="true") */
+/* Подсветка ошибочных полей (установка aria-invalid="true") */
 [aria-invalid="true"] {
   border-color: #b00020;
 }
