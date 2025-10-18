@@ -70,6 +70,20 @@
       </div>
     </section>
 
+    <script>
+      document.getElementById('menuIcon').addEventListener('click', function() {
+        // Логика открытия меню
+        console.log('Клик по меню');
+      });
+      
+      // Добавляем поддержку клавиатуры
+      document.getElementById('menuIcon').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.click();
+        }
+      });
+      </script>
     <!-- About Section -->
     <section class="mb-5">
       <div class="card shadow-sm">
