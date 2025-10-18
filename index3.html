@@ -38,52 +38,172 @@
   </nav>
 
   <main class="container my-4">
-    <!-- Profile Section -->
-    <section class="mb-5">
-      <div class="card shadow-sm">
-        <div class="card-body p-4">
-          <div class="row align-items-center">
-            <div class="col-md-3 text-center mb-3 mb-md-0">
-              <img src="images/1.jpg" alt="Фото студента" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+<!-- Profile Section -->
+<section class="mb-5">
+  <div class="card shadow-sm">
+    <div class="card-body p-4">
+      <div class="row align-items-center">
+        <div class="col-md-3 text-center mb-3 mb-md-0">
+          <img src="images/1.jpg" alt="Фото студента" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+        </div>
+        <div class="col-md-9">
+          <h2 class="card-title h4 text-dark">Алимов Альберт Радикович</h2>
+          <p class="card-text text-muted mb-2">
+            <i class="bi bi-bookmark-check-fill text-primary"></i>
+            Студент группы ЭФБО-09-24
+          </p>
+          <p class="card-text">
+            Факультет информационных технологий, специальность "Веб-разработка"
+          </p>
+          <div class="d-flex gap-2 flex-wrap align-items-center position-relative">
+            <!-- Кнопка меню -->
+            <button class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1" id="sitesMenuButton">
+              <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
+                <path d="M120-80v-80h720v80H120Zm0-240v-80h720v80H120Zm0-240v-80h720v80H120Zm0-240v-80h720v80H120Z"/>
+              </svg>
+              Мои сайты
+            </button>
+
+            <!-- Выпадающее меню -->
+            <div class="dropdown-menu" id="sitesDropdown" style="display: none; position: absolute; top: 100%; left: 0; z-index: 1000; min-width: 200px;">
+              <h6 class="dropdown-header">Мои проекты</h6>
+              <a class="dropdown-item" href="https://github.com/username" target="_blank">
+                <i class="bi bi-github me-2"></i>GitHub
+              </a>
+              <a class="dropdown-item" href="https://linkedin.com/in/username" target="_blank">
+                <i class="bi bi-linkedin me-2"></i>LinkedIn
+              </a>
+              <a class="dropdown-item" href="https://portfolio-site.com" target="_blank">
+                <i class="bi bi-briefcase me-2"></i>Портфолио
+              </a>
+              <a class="dropdown-item" href="https://codepen.io/username" target="_blank">
+                <i class="bi bi-code-slash me-2"></i>CodePen
+              </a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="https://university-site.com" target="_blank">
+                <i class="bi bi-building me-2"></i>Университет
+              </a>
             </div>
-            <div class="col-md-9">
-              <h2 class="card-title h4 text-dark">Алимов Альберт Радикович</h2>
-              <p class="card-text text-muted mb-2">
-                <i class="bi bi-bookmark-check-fill text-primary"></i>
-                Студент группы ЭФБО-09-24
-              </p>
-              <p class="card-text">
-                Факультет информационных технологий, специальность "Веб-разработка"
-              </p>
-              <div class="d-flex gap-2 flex-wrap align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
-                  <path d="M120-80v-80h720v80H120Zm0-240v-80h720v80H120Zm0-240v-80h720v80H120Zm0-240v-80h720v80H120Z"/>
-                </svg>
-                <span class="badge bg-primary">HTML/CSS</span>
-                <span class="badge bg-success">JavaScript</span>
-                <span class="badge bg-info">Bootstrap</span>
-                <span class="badge bg-warning">React</span>
-              </div>
-            </div>
+
+            <span class="badge bg-primary">HTML/CSS</span>
+            <span class="badge bg-success">JavaScript</span>
+            <span class="badge bg-info">Bootstrap</span>
+            <span class="badge bg-warning">React</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <script>
-      document.getElementById('menuIcon').addEventListener('click', function() {
-        // Логика открытия меню
-        console.log('Клик по меню');
-      });
-      
-      // Добавляем поддержку клавиатуры
-      document.getElementById('menuIcon').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          this.click();
-        }
-      });
-      </script>
+<style>
+/* Стили для кнопки и выпадающего меню */
+#sitesMenuButton {
+  transition: all 0.2s ease;
+  border: 1px solid #6c757d;
+}
+
+#sitesMenuButton:hover {
+  background-color: #6c757d;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.dropdown-menu {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.375rem;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.dropdown-item:active {
+  background-color: #e9ecef;
+}
+
+/* Анимация появления меню */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-menu.show {
+  display: block !important;
+  animation: fadeIn 0.2s ease;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const menuButton = document.getElementById('sitesMenuButton');
+  const dropdown = document.getElementById('sitesDropdown');
+  let isMenuOpen = false;
+
+  // Функция для открытия/закрытия меню
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+    
+    if (isMenuOpen) {
+      dropdown.classList.add('show');
+      menuButton.setAttribute('aria-expanded', 'true');
+    } else {
+      dropdown.classList.remove('show');
+      menuButton.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  // Обработчик клика по кнопке
+  menuButton.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  // Закрытие меню при клике вне его
+  document.addEventListener('click', function(e) {
+    if (isMenuOpen && !menuButton.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.classList.remove('show');
+      menuButton.setAttribute('aria-expanded', 'false');
+      isMenuOpen = false;
+    }
+  });
+
+  // Закрытие меню при нажатии Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && isMenuOpen) {
+      dropdown.classList.remove('show');
+      menuButton.setAttribute('aria-expanded', 'false');
+      isMenuOpen = false;
+    }
+  });
+
+  // Поддержка клавиатуры для кнопки
+  menuButton.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleMenu();
+    }
+  });
+
+  // Предотвращение закрытия меню при клике внутри него
+  dropdown.addEventListener('click', function(e) {
+    e.stopPropagation();
+  });
+});
+</script>
+
     <!-- About Section -->
     <section class="mb-5">
       <div class="card shadow-sm">
