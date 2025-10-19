@@ -32,7 +32,28 @@
       </div>
     </div>
 
+
     <!-- Навигация по меню -->
+    <style>
+      .hero-section {
+        min-height: 100vh;
+        background-color: #f8f9fa;
+      }
+      .menu-section {
+        display: none;
+        padding: 3rem 0;
+      }
+      .menu-section.active {
+        display: block;
+      }
+      .dish-card {
+        transition: transform 0.3s ease;
+      }
+      .dish-card:hover {
+        transform: translateY(-5px);
+      }
+    </style>
+    
     <div style="background-color: #d15555; padding: 2rem 0;">
       <div class="container d-flex justify-content-center">
         <ul class="nav nav-pills bg-white p-3 rounded shadow" id="menuNav">
