@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Project 1</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .hero-section {
+        min-height: 100vh;
+        background-color: #f8f9fa;
+      }
+      .menu-section {
+        display: none;
+        padding: 3rem 0;
+      }
+      .menu-section.active {
+        display: block;
+      }
+      .dish-card {
+        transition: transform 0.3s ease;
+      }
+      .dish-card:hover {
+        transform: translateY(-5px);
+      }
+    </style>
   </head>
   <body>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
@@ -27,33 +46,12 @@
           </div>
         </div>
         <div class="col-md-6 p-0">
-          <img src="https://stoneplanet.ru/thumb/2/TNId-9Zf9Qd1sqfiS0mGJQ/600r600/d/choose_caravaggio_quartzite_get_designer-style_look.jpg"class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Интерьер ресторана"/>
+          <img src="https://stoneplanet.ru/thumb/2/TNId-9Zf9Qd1sqfiS0mGJQ/600r600/d/choose_caravaggio_quartzite_get_designer-style_look.jpg" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Интерьер ресторана"/>
         </div>
       </div>
     </div>
 
-
     <!-- Навигация по меню -->
-    <style>
-      .hero-section {
-        min-height: 100vh;
-        background-color: #f8f9fa;
-      }
-      .menu-section {
-        display: none;
-        padding: 3rem 0;
-      }
-      .menu-section.active {
-        display: block;
-      }
-      .dish-card {
-        transition: transform 0.3s ease;
-      }
-      .dish-card:hover {
-        transform: translateY(-5px);
-      }
-    </style>
-    
     <div style="background-color: #d15555; padding: 2rem 0;">
       <div class="container d-flex justify-content-center">
         <ul class="nav nav-pills bg-white p-3 rounded shadow" id="menuNav">
@@ -81,112 +79,114 @@
       <h2 class="text-center mb-5">Горячие блюда</h2>
       <div class="row g-4">
         <!-- Блюдо 1 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/8B4513/FFFFFF?text=Мозг" class="card-img-top" alt="Жареный мозг">
-          <div class="card-body">
-            <h5 class="card-title">Жареный мозг</h5>
-            <p class="card-text">Нежнейшие кусочки телячьего мозга в хрустящей панцировке с каперсами и лимонным соусом. Для истинных гурманов!</p>
-            <p class="fw-bold text-primary">850 ₽</p>
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/8B4513/FFFFFF?text=Мозг" class="card-img-top" alt="Жареный мозг">
+            <div class="card-body">
+              <h5 class="card-title">Жареный мозг</h5>
+              <p class="card-text">Нежнейшие кусочки телячьего мозга в хрустящей панцировке с каперсами и лимонным соусом. Для истинных гурманов!</p>
+              <p class="fw-bold text-primary">850 ₽</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Блюдо 2 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/2F4F4F/FFFFFF?text=Улитки" class="card-img-top" alt="Улитки">
-          <div class="card-body">
-            <h5 class="card-title">Улитки по-бургундски</h5>
-            <p class="card-text">Виноградные улитки, томленные в чесночном масле с петрушкой и пряными травами. Подаются с хрустящим багетом.</p>
-            <p class="fw-bold text-primary">890 ₽</p>
+        <!-- Блюдо 2 -->
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/2F4F4F/FFFFFF?text=Улитки" class="card-img-top" alt="Улитки">
+            <div class="card-body">
+              <h5 class="card-title">Улитки по-бургундски</h5>
+              <p class="card-text">Виноградные улитки, томленные в чесночном масле с петрушкой и пряными травами. Подаются с хрустящим багетом.</p>
+              <p class="fw-bold text-primary">890 ₽</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Блюдо 3 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/8B0000/FFFFFF?text=Скорпион" class="card-img-top" alt="Скорпион">
-          <div class="card-body">
-            <h5 class="card-title">Жареные скорпионы</h5>
-            <p class="card-text">Хрустящие скорпионы во фритюре с острым соусом чили и кунжутом. Экзотика, которая вас удивит!</p>
-            <p class="fw-bold text-primary">750 ₽</p>
+        <!-- Блюдо 3 -->
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/8B0000/FFFFFF?text=Скорпион" class="card-img-top" alt="Скорпион">
+            <div class="card-body">
+              <h5 class="card-title">Жареные скорпионы</h5>
+              <p class="card-text">Хрустящие скорпионы во фритюре с острым соусом чили и кунжутом. Экзотика, которая вас удивит!</p>
+              <p class="fw-bold text-primary">750 ₽</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Блюдо 4 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/4B0082/FFFFFF?text=Змея" class="card-img-top" alt="Змея">
-          <div class="card-body">
-            <h5 class="card-title">Жареная змея</h5>
-            <p class="card-text">Нежное мясо питона с овощами в соевом соусе. По вкусу напоминает курицу, но с экзотическими нотками.</p>
-            <p class="fw-bold text-primary">1200 ₽</p>
+        <!-- Блюдо 4 -->
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/4B0082/FFFFFF?text=Змея" class="card-img-top" alt="Змея">
+            <div class="card-body">
+              <h5 class="card-title">Жареная змея</h5>
+              <p class="card-text">Нежное мясо питона с овощами в соевом соусе. По вкусу напоминает курицу, но с экзотическими нотками.</p>
+              <p class="fw-bold text-primary">1200 ₽</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Блюдо 5 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/006400/FFFFFF?text=Овечьи+глаза" class="card-img-top" alt="Овечьи глаза">
-          <div class="card-body">
-            <h5 class="card-title">Овечьи глаза</h5>
-            <p class="card-text">Традиционное блюдо с нежной текстурой, приготовленное с луком и специями. Для смелых экспериментаторов!</p>
-            <p class="fw-bold text-primary">680 ₽</p>
+        <!-- Блюдо 5 -->
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/006400/FFFFFF?text=Овечьи+глаза" class="card-img-top" alt="Овечьи глаза">
+            <div class="card-body">
+              <h5 class="card-title">Овечьи глаза</h5>
+              <p class="card-text">Традиционное блюдо с нежной текстурой, приготовленное с луком и специями. Для смелых экспериментаторов!</p>
+              <p class="fw-bold text-primary">680 ₽</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Блюдо 6 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/FF8C00/FFFFFF?text=Балют" class="card-img-top" alt="Балют">
-          <div class="card-body">
-            <h5 class="card-title">Балют</h5>
-            <p class="card-text">Филиппинский деликатес - утиный эмбрион с перьями и костями. Подается с солью и уксусом.</p>
-            <p class="fw-bold text-primary">550 ₽</p>
+        <!-- Блюдо 6 -->
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/FF8C00/FFFFFF?text=Балют" class="card-img-top" alt="Балют">
+            <div class="card-body">
+              <h5 class="card-title">Балют</h5>
+              <p class="card-text">Филиппинский деликатес - утиный эмбрион с перьями и костями. Подается с солью и уксусом.</p>
+              <p class="fw-bold text-primary">550 ₽</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Блюдо 7 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/2F4F4F/FFFFFF?text=Хакарл" class="card-img-top" alt="Хакарл">
-          <div class="card-body">
-            <h5 class="card-title">Хакарл</h5>
-            <p class="card-text">Исландский деликатес - ферментированное мясо акулы с резким ароматом и уникальным вкусом.</p>
-            <p class="fw-bold text-primary">950 ₽</p>
+        <!-- Блюдо 7 -->
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/2F4F4F/FFFFFF?text=Хакарл" class="card-img-top" alt="Хакарл">
+            <div class="card-body">
+              <h5 class="card-title">Хакарл</h5>
+              <p class="card-text">Исландский деликатес - ферментированное мясо акулы с резким ароматом и уникальным вкусом.</p>
+              <p class="fw-bold text-primary">950 ₽</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Блюдо 8 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/8B7355/FFFFFF?text=Кузнечики" class="card-img-top" alt="Кузнечики">
-          <div class="card-body">
-            <h5 class="card-title">Кузнечики в шоколаде</h5>
-            <p class="card-text">Хрустящие кузнечики в горьком шоколаде. Необычное сочетание сладкого и соленого с хрустящей текстурой.</p>
-            <p class="fw-bold text-primary">490 ₽</p>
+        <!-- Блюдо 8 -->
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/8B7355/FFFFFF?text=Кузнечики" class="card-img-top" alt="Кузнечики">
+            <div class="card-body">
+              <h5 class="card-title">Кузнечики в шоколаде</h5>
+              <p class="card-text">Хрустящие кузнечики в горьком шоколаде. Необычное сочетание сладкого и соленого с хрустящей текстурой.</p>
+              <p class="fw-bold text-primary">490 ₽</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Блюдо 9 -->
-      <div class="col-md-4">
-        <div class="card dish-card h-100">
-          <img src="https://via.placeholder.com/300x200/800080/FFFFFF?text=Глаза+тунца" class="card-img-top" alt="Глаза тунца">
-          <div class="card-body">
-            <h5 class="card-title">Глаза тунца</h5>
-            <p class="card-text">Нежные глаза тунца, тушенные в соевом соусе с имбирем. По консистенции напоминают кальмаров.</p>
-            <p class="fw-bold text-primary">720 ₽</p>
+        <!-- Блюдо 9 -->
+        <div class="col-md-4">
+          <div class="card dish-card h-100">
+            <img src="https://via.placeholder.com/300x200/800080/FFFFFF?text=Глаза+тунца" class="card-img-top" alt="Глаза тунца">
+            <div class="card-body">
+              <h5 class="card-title">Глаза тунца</h5>
+              <p class="card-text">Нежные глаза тунца, тушенные в соевом соусе с имбирем. По консистенции напоминают кальмаров.</p>
+              <p class="fw-bold text-primary">720 ₽</p>
+            </div>
           </div>
         </div>
       </div>
+    </div>
 
     <!-- Секция Десерты (скрыта по умолчанию) -->
     <div id="deserty" class="menu-section container">
