@@ -28,6 +28,11 @@
         white-space: nowrap;
         flex-wrap: nowrap;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .nav-pills-scroll::-webkit-scrollbar {
+        display: none;
       }
       .nav-pills-scroll .nav-item {
         display: inline-block;
@@ -67,6 +72,13 @@
           width: 100%;
           margin-top: 1rem;
         }
+        .nav-pills {
+          padding: 0.75rem !important;
+        }
+        .nav-pills .nav-link {
+          padding: 0.5rem 0.75rem;
+          font-size: 0.9rem;
+        }
       }
       
       @media (max-width: 576px) {
@@ -94,13 +106,6 @@
           font-size: 0.875rem;
           padding: 0.375rem 0.75rem;
         }
-        .nav-pills {
-          padding: 1rem !important;
-        }
-        .nav-pills .nav-link {
-          padding: 0.5rem 0.75rem;
-          font-size: 0.9rem;
-        }
       }
       
       @media (max-width: 400px) {
@@ -116,6 +121,27 @@
         }
         h2 {
           font-size: 1.5rem;
+        }
+      }
+
+      /* Стили для адаптивного меню */
+      @media (min-width: 1200px) {
+        .nav-pills {
+          padding: 1.25rem !important;
+        }
+        .nav-pills .nav-link {
+          padding: 0.75rem 1.25rem !important;
+          font-size: 1.1rem !important;
+        }
+      }
+      
+      @media (min-width: 1400px) {
+        .nav-pills {
+          padding: 1.5rem !important;
+        }
+        .nav-pills .nav-link {
+          padding: 0.875rem 1.5rem !important;
+          font-size: 1.2rem !important;
         }
       }
   </style>
@@ -159,30 +185,34 @@
     </div>
   </div>
 
-  <div style="background-color: #d15555; padding: 2rem 0;">
+  <!-- Исправленное меню категорий -->
+  <div style="background-color: #d15555; padding: 1.5rem 0;">
     <div class="container">
-      <!-- Добавлен класс для горизонтальной прокрутки на мобильных -->
-      <ul class="nav nav-pills bg-white p-3 rounded shadow nav-pills-scroll" id="menuNav">
-        <li class="nav-item">
-          <a class="nav-link active" href="#gorjachee" data-target="gorjachee">Горячее</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#deserty" data-target="deserty">Десерты</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#napitki" data-target="napitki">Напитки</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#salaty" data-target="salaty">Салаты</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#zakuski" data-target="zakuski">Закуски</a>
-        </li>
-      </ul>
+      <div class="row justify-content-center">
+        <div class="col-auto">
+          <ul class="nav nav-pills bg-white p-3 rounded shadow nav-pills-scroll" id="menuNav">
+            <li class="nav-item">
+              <a class="nav-link active mx-1" href="#gorjachee" data-target="gorjachee">Горячее</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-1" href="#deserty" data-target="deserty">Десерты</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-1" href="#napitki" data-target="napitki">Напитки</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-1" href="#salaty" data-target="salaty">Салаты</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-1" href="#zakuski" data-target="zakuski">Закуски</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Обновленная сетка для карточек -->
+  <!-- Секция горячих блюд -->
   <div id="gorjachee" class="menu-section active container">
     <h2 class="text-center mb-5">Горячие блюда</h2>
     <div class="row g-4">
@@ -297,6 +327,7 @@
     </div>
   </div>
 
+  <!-- Секция десертов -->
   <div id="deserty" class="menu-section container">
     <h2 class="text-center mb-5">Десерты</h2>
     <div class="row g-4">
@@ -363,6 +394,7 @@
     </div>
   </div>
 
+  <!-- Секция напитков -->
   <div id="napitki" class="menu-section container">
     <h2 class="text-center mb-5">Напитки</h2>
     <div class="row g-4">
@@ -429,6 +461,7 @@
     </div>
   </div>
 
+  <!-- Секция салатов -->
   <div id="salaty" class="menu-section container">
     <h2 class="text-center mb-5">Салаты</h2>
     <div class="row g-4">
@@ -507,6 +540,7 @@
     </div>
   </div>
 
+  <!-- Секция закусок -->
   <div id="zakuski" class="menu-section container">
     <h2 class="text-center mb-5">Закуски</h2>
     <div class="row g-4">
