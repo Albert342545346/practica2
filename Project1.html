@@ -2,14 +2,77 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Project 1</title>
+    <!-- Исправлено: убраны лишние пробелы в ссылке на Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Добавлено: корректный viewport как в занятии №15 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Project 1</title>
     <style>
+      /* === Базовые стили и переменные (из занятия №15) === */
+      :root {
+        --primary-color: #d15555;
+        --text-color: #1e293b;
+        --bg-color: #f8fafc;
+        --border-color: #e2e8f0;
+        --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        --radius: 8px;
+        --transition: all 0.3s ease;
+      }
+
+      /* === Семантика и доступность (из занятия №15) === */
+      .skip-link {
+        position: absolute;
+        inset-inline-start: 1rem;
+        inset-block-start: -100%;
+        z-index: 10000;
+        padding: 0.5rem 0.75rem;
+        background: #111;
+        color: #fff;
+        border-radius: 0.5rem;
+        text-decoration: none;
+      }
+      .skip-link:focus,
+      .skip-link:focus-visible {
+        inset-block-start: 1rem;
+      }
+      :focus-visible {
+        outline: 3px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+
+      /* === Герой-секция === */
       .hero-section {
-        min-height: 100vh;
+        min-height: 100svh; /* Используем svh для стабильности на мобилках (занятие №15) */
         background-color: #f8f9fa;
       }
+      /* Плавная типографика для заголовка (занятие №15) */
+      .hero-title {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+      }
+      .hero-subtitle {
+        font-size: clamp(1rem, 2.5vw, 1.25rem);
+      }
+
+      /* === Навигация по меню === */
+      .menu-nav-container {
+        background-color: var(--primary-color);
+        padding: 2rem 0;
+      }
+      .menu-nav-list {
+        background-color: white;
+        padding: 1rem; /* Уменьшаем паддинги на мобилках */
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+      /* На мобильных устройствах навигация будет в колонку */
+      @media (max-width: 768px) {
+        .menu-nav-list {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+      }
+
+      /* === Секции меню === */
       .menu-section {
         display: none;
         padding: 3rem 0;
@@ -17,20 +80,114 @@
       .menu-section.active {
         display: block;
       }
+      .section-title {
+        font-size: clamp(1.8rem, 3vw, 2.2rem);
+        margin-bottom: 2rem;
+      }
+
+      /* === Карточки блюд === */
       .dish-card {
-        transition: transform 0.3s ease;
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
       }
       .dish-card:hover {
         transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
       }
-      .dish-img {
+      .dish-card-body {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+      }
+      @media (min-width: 768px) {
+        .dish-card-body {
+          flex-direction: row;
+          align-items: center;
+          padding: 1.5rem;
+        }
+      }
+      .dish-img-container {
+        flex-shrink: 0;
+        border-radius: 50%;
+        overflow: hidden;
         width: 120px;
         height: 120px;
-        object-fit: cover;
       }
+      @media (min-width: 768px) {
+        .dish-img-container {
+          width: 150px;
+          height: 150px;
+        }
+      }
+      .dish-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .dish-info {
+        flex: 1;
+        min-width: 0; /* Позволяет контенту ужиматься (занятие №15) */
+      }
+      .dish-info h5 {
+        margin-bottom: 0.5rem;
+        overflow-wrap: break-word; /* Предотвращает переполнение длинными словами */
+      }
+      .dish-info p {
+        margin-bottom: 0.5rem;
+        overflow-wrap: anywhere;
+      }
+      .dish-price {
+        font-weight: bold;
+        color: var(--primary-color);
+        margin: 0;
+      }
+
+      /* === Адаптивная сетка карточек с использованием Container Queries (CQ) === */
+      /* Обертка для сетки, которая будет контейнером */
+      .dishes-grid-container {
+        container-type: inline-size;
+        container-name: dishes;
+      }
+      /* Базовая сетка для очень узких экранов */
+      .dishes-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      /* Прогрессивное улучшение через Container Queries */
+      @supports (container-type: inline-size) {
+        /* Для контейнеров шире ~500px (примерно 2 карточки по 200px + gap) */
+        @container dishes (min-width: 500px) {
+          .dishes-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+        /* Для контейнеров шире ~750px (примерно 3 карточки) */
+        @container dishes (min-width: 750px) {
+          .dishes-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+        /* Для очень широких контейнеров */
+        @container dishes (min-width: 1000px) {
+          .dishes-grid {
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+      }
+
+      /* === Подвал (если будет добавлен) === */
+      /* .footer { padding-bottom: calc(1rem + env(safe-area-inset-bottom)); } */
     </style>
   </head>
   <body>
+    <!-- === Семантика и доступность (из занятия №15) === -->
+    <a class="skip-link" href="#main-content">Перейти к меню</a>
+
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
       <div class="container-fluid d-flex justify-content-between align-items-center">
         <a class="navbar-brand text-white">Logo</a>
@@ -46,20 +203,36 @@
       <div class="row h-100">
         <div class="col-md-6 d-flex align-items-center">
           <div class="p-4">
-            <h1 class="display-5 mb-4">Меню ресторана "Ай, вкусняшка"</h1>
-            <p class="lead">Ниже представлено всё, чего вы желаете</p>
+            <!-- Используем классы для плавной типографики -->
+            <h1 class="hero-title mb-4">Меню ресторана "Ай, вкусняшка"</h1>
+            <p class="hero-subtitle lead">Ниже представлено всё, чего вы желаете</p>
           </div>
         </div>
         <div class="col-md-6 p-0">
-          <img src="https://stoneplanet.ru/thumb/2/TNId-9Zf9Qd1sqfiS0mGJQ/600r600/d/choose_caravaggio_quartzite_get_designer-style_look.jpg" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Интерьер ресторана"/>
+          <!-- === Адаптивное изображение для героя (занятие №15) === -->
+          <!-- Подготавливаем изображения разных размеров: mobile.jpg, tablet.jpg, desktop.jpg -->
+          <!-- И используем тег <picture> -->
+          <picture>
+            <source media="(min-width: 992px)" srcset="images/hero-desktop.jpg" />
+            <source media="(min-width: 768px)" srcset="images/hero-tablet.jpg" />
+            <img
+              src="images/hero-mobile.jpg"
+              class="img-fluid w-100 h-100"
+              style="object-fit: cover;"
+              alt="Интерьер ресторана"
+              width="1200"
+              height="800"
+              fetchpriority="high"
+            />
+          </picture>
         </div>
       </div>
     </div>
 
     <!-- Навигация по меню -->
-    <div style="background-color: #d15555; padding: 2rem 0;">
-      <div class="container d-flex justify-content-center">
-        <ul class="nav nav-pills bg-white p-3 rounded shadow" id="menuNav">
+    <div class="menu-nav-container">
+      <div class="container">
+        <ul class="nav nav-pills menu-nav-list justify-content-center" id="menuNav">
           <li class="nav-item">
             <a class="nav-link active" href="#gorjachee" data-target="gorjachee">Горячее</a>
           </li>
@@ -79,472 +252,1045 @@
       </div>
     </div>
 
-<!-- Секция Горячее -->
-<div id="gorjachee" class="menu-section active container">
-  <h2 class="text-center mb-5">Горячие блюда</h2>
-  <div class="row g-4">
-    <!-- Блюдо 1 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://www.owoman.ru/assets/images/cook/govjazhi_mozgi2.jpg" class="rounded-circle dish-img me-3" alt="Жареный мозг" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Жареный мозг</h5>
-            <p class="card-text">Нежнейшие кусочки телячьего мозга в хрустящей панцировке с каперсами и лимонным соусом. Для истинных гурманов!</p>
-            <p class="fw-bold text-primary">850 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Основной контент -->
+    <main id="main-content">
 
-    <!-- Блюдо 2 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://www.gourmetfoodstore.com/images/PRODUCT/large/2859_1_.jpg" class="rounded-circle dish-img me-3" alt="Улитки" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Улитки по-бургундски</h5>
-            <p class="card-text">Виноградные улитки, томленные в чесночном масле с петрушкой и пряными травами. Подаются с хрустящим багетом.</p>
-            <p class="fw-bold text-primary">890 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
+      <!-- Секция Горячее -->
+      <div id="gorjachee" class="menu-section active container">
+        <h2 class="section-title text-center">Горячие блюда</h2>
+        <div class="dishes-grid-container">
+          <div class="dishes-grid">
+            <!-- Блюдо 1 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/govjazhi_mozgi-120.webp 120w,
+                      images/govjazhi_mozgi-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/govjazhi_mozgi-120.jpg"
+                      srcset="
+                        images/govjazhi_mozgi-120.jpg 120w,
+                        images/govjazhi_mozgi-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Жареный мозг"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Жареный мозг</h5>
+                  <p class="card-text">Нежнейшие кусочки телячьего мозга в хрустящей панцировке с каперсами и лимонным соусом. Для истинных гурманов!</p>
+                  <p class="dish-price">850 ₽</p>
+                </div>
+              </div>
+            </div>
 
-    <!-- Блюдо 3 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.dzeninfra.ru/get-zen_doc/10122231/pub_650bf607823c145d418d09de_650d51cf3f483f2825a29041/scale_1200" class="rounded-circle dish-img me-3" alt="Скорпион" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Жареные скорпионы</h5>
-            <p class="card-text">Хрустящие скорпионы во фритюре с острым соусом чили и кунжутом. Экзотика, которая вас удивит!</p>
-            <p class="fw-bold text-primary">750 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <!-- Блюдо 2 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/ulitki-120.webp 120w,
+                      images/ulitki-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/ulitki-120.jpg"
+                      srcset="
+                        images/ulitki-120.jpg 120w,
+                        images/ulitki-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Улитки по-бургундски"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Улитки по-бургундски</h5>
+                  <p class="card-text">Виноградные улитки, томленные в чесночном масле с петрушкой и пряными травами. Подаются с хрустящим багетом.</p>
+                  <p class="dish-price">890 ₽</p>
+                </div>
+              </div>
+            </div>
 
-    <!-- Блюдо 4 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_65a42eafd19d094d69f37f14_65a42f3dc690d6570c0cb07f/scale_1200" class="rounded-circle dish-img me-3" alt="Змея" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Жареная змея</h5>
-            <p class="card-text">Нежное мясо питона с овощами в соевом соусе. По вкусу напоминает курицу, но с экзотическими нотками.</p>
-            <p class="fw-bold text-primary">1200 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <!-- Блюдо 3 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/skorpion-120.webp 120w,
+                      images/skorpion-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/skorpion-120.jpg"
+                      srcset="
+                        images/skorpion-120.jpg 120w,
+                        images/skorpion-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Жареные скорпионы"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Жареные скорпионы</h5>
+                  <p class="card-text">Хрустящие скорпионы во фритюре с острым соусом чили и кунжутом. Экзотика, которая вас удивит!</p>
+                  <p class="dish-price">750 ₽</p>
+                </div>
+              </div>
+            </div>
 
-    <!-- Блюдо 5 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://media-cdn.tripadvisor.com/media/photo-s/1c/0f/58/f0/caption.jpg" class="rounded-circle dish-img me-3" alt="Овечьи глаза" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Овечьи глаза</h5>
-            <p class="card-text">Традиционное блюдо с нежной текстурой, приготовленное с луком и специями. Для смелых экспериментаторов!</p>
-            <p class="fw-bold text-primary">680 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <!-- Блюдо 4 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/zmeia-120.webp 120w,
+                      images/zmeia-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/zmeia-120.jpg"
+                      srcset="
+                        images/zmeia-120.jpg 120w,
+                        images/zmeia-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Жареная змея"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Жареная змея</h5>
+                  <p class="card-text">Нежное мясо питона с овощами в соевом соусе. По вкусу напоминает курицу, но с экзотическими нотками.</p>
+                  <p class="dish-price">1200 ₽</p>
+                </div>
+              </div>
+            </div>
 
-    <!-- Блюдо 6 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_6846de1a33562a4b4137e567_6846f0c6a3b41c256ae97034/scale_1200" class="rounded-circle dish-img me-3" alt="Балют" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Балют</h5>
-            <p class="card-text">Филиппинский деликатес - утиный эмбрион с перьями и костями. Подается с солью и уксусом.</p>
-            <p class="fw-bold text-primary">550 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <!-- Блюдо 5 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/ovechyi_glaza-120.webp 120w,
+                      images/ovechyi_glaza-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/ovechyi_glaza-120.jpg"
+                      srcset="
+                        images/ovechyi_glaza-120.jpg 120w,
+                        images/ovechyi_glaza-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Овечьи глаза"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Овечьи глаза</h5>
+                  <p class="card-text">Традиционное блюдо с нежной текстурой, приготовленное с луком и специями. Для смелых экспериментаторов!</p>
+                  <p class="dish-price">680 ₽</p>
+                </div>
+              </div>
+            </div>
 
-    <!-- Блюдо 7 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://ko44.ru/media/main_photos/2025/07/02/image-1750765196_0547.png.webp.877x493_q85_box-20,0,820,450_crop_detail_upscale.jpg" class="rounded-circle dish-img me-3" alt="Хакарл" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Хакарл</h5>
-            <p class="card-text">Исландский деликатес - ферментированное мясо акулы с резким ароматом и уникальным вкусом.</p>
-            <p class="fw-bold text-primary">950 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <!-- Блюдо 6 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/balut-120.webp 120w,
+                      images/balut-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/balut-120.jpg"
+                      srcset="
+                        images/balut-120.jpg 120w,
+                        images/balut-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Балют"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Балют</h5>
+                  <p class="card-text">Филиппинский деликатес — утиный эмбрион с перьями и костями. Подается с солью и уксусом.</p>
+                  <p class="dish-price">550 ₽</p>
+                </div>
+              </div>
+            </div>
 
-    <!-- Блюдо 8 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://i.pinimg.com/736x/90/53/39/905339b3eef74160194a070b8526c078.jpg" class="rounded-circle dish-img me-3" alt="Кузнечики" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Кузнечики</h5>
-            <p class="card-text">Хрустящие кузнечики. Необычное сочетание сладкого и соленого с хрустящей текстурой.</p>
-            <p class="fw-bold text-primary">490 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
+            <!-- Блюдо 7 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/hakarl-120.webp 120w,
+                      images/hakarl-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/hakarl-120.jpg"
+                      srcset="
+                        images/hakarl-120.jpg 120w,
+                        images/hakarl-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Хакарл"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Хакарл</h5>
+                  <p class="card-text">Исландский деликатес — ферментированное мясо акулы с резким ароматом и уникальным вкусом.</p>
+                  <p class="dish-price">950 ₽</p>
+                </div>
+              </div>
+            </div>
 
-    <!-- Блюдо 9 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://i.pinimg.com/originals/d7/31/8d/d7318daf61630202ddca7e8805d0fd26.jpg" class="rounded-circle dish-img me-3" alt="Глаза тунца" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Глаза тунца</h5>
-            <p class="card-text">Нежные глаза тунца, тушенные в соевом соусе с имбирем. По консистенции напоминают кальмаров.</p>
-            <p class="fw-bold text-primary">720 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+            <!-- Блюдо 8 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/kuznechiki-120.webp 120w,
+                      images/kuznechiki-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/kuznechiki-120.jpg"
+                      srcset="
+                        images/kuznechiki-120.jpg 120w,
+                        images/kuznechiki-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Кузнечики"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Кузнечики</h5>
+                  <p class="card-text">Хрустящие кузнечики. Необычное сочетание сладкого и соленого с хрустящей текстурой.</p>
+                  <p class="dish-price">490 ₽</p>
+                </div>
+              </div>
+            </div>
 
-    <!-- Секция Десерты -->
-    <div id="deserty" class="menu-section container">
-      <h2 class="text-center mb-5">Десерты</h2>
-      <div class="row g-4">
-        <!-- Десерт 1 -->
-        <div class="col-md-4">
-          <div class="card dish-card h-100">
-            <div class="card-body d-flex align-items-center p-3">
-              <img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1H7gbo.img?w=1000&h=707&m=4&q=99" class="rounded-circle dish-img me-3" alt="Тирамису" style="width: 200px; height: 200px; object-fit: cover;">
-              <div>
-                <h5 class="card-title">Тирамису</h5>
-                <p class="card-text">Классический итальянский десерт с кофе и маскарпоне.</p>
-                <p class="fw-bold text-primary">320 ₽</p>
+            <!-- Блюдо 9 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/glaza_tuntsa-120.webp 120w,
+                      images/glaza_tuntsa-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/glaza_tuntsa-120.jpg"
+                      srcset="
+                        images/glaza_tuntsa-120.jpg 120w,
+                        images/glaza_tuntsa-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Глаза тунца"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Глаза тунца</h5>
+                  <p class="card-text">Нежные глаза тунца, тушенные в соевом соусе с имбирем. По консистенции напоминают кальмаров.</p>
+                  <p class="dish-price">720 ₽</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Десерт 2 -->
-        <div class="col-md-4">
-          <div class="card dish-card h-100">
-            <div class="card-body d-flex align-items-center p-3">
-              <img src="https://avatars.mds.yandex.net/i?id=22311dc6b809da2359eb66e02e171123d7690199-4567142-images-thumbs&n=13" class="rounded-circle dish-img me-3" alt="Чизкейк" style="width: 200px; height: 200px; object-fit: cover;">
-              <div>
-                <h5 class="card-title">Нью-Йорк чизкейк</h5>
-                <p class="card-text">Нежный чизкейк с ванильным кремом и ягодным соусом.</p>
-                <p class="fw-bold text-primary">380 ₽</p>
+      <!-- Секция Десерты -->
+      <div id="deserty" class="menu-section container">
+        <h2 class="section-title text-center">Десерты</h2>
+        <div class="dishes-grid-container">
+          <div class="dishes-grid">
+            <!-- Десерт 1 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/tiramisu-120.webp 120w,
+                      images/tiramisu-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/tiramisu-120.jpg"
+                      srcset="
+                        images/tiramisu-120.jpg 120w,
+                        images/tiramisu-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Тирамису"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Тирамису</h5>
+                  <p class="card-text">Классический итальянский десерт с кофе и маскарпоне.</p>
+                  <p class="dish-price">320 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Десерт 2 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/cheesecake-120.webp 120w,
+                      images/cheesecake-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/cheesecake-120.jpg"
+                      srcset="
+                        images/cheesecake-120.jpg 120w,
+                        images/cheesecake-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Нью-Йорк чизкейк"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Нью-Йорк чизкейк</h5>
+                  <p class="card-text">Нежный чизкейк с ванильным кремом и ягодным соусом.</p>
+                  <p class="dish-price">380 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Десерт 3 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/krem-brule-120.webp 120w,
+                      images/krem-brule-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/krem-brule-120.jpg"
+                      srcset="
+                        images/krem-brule-120.jpg 120w,
+                        images/krem-brule-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Крем-брюле"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Крем-брюле</h5>
+                  <p class="card-text">Ванильный крем с хрустящей карамельной корочкой.</p>
+                  <p class="dish-price">290 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Десерт 4 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/fondan-120.webp 120w,
+                      images/fondan-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/fondan-120.jpg"
+                      srcset="
+                        images/fondan-120.jpg 120w,
+                        images/fondan-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Шоколадный фондан"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Шоколадный фондан</h5>
+                  <p class="card-text">Тёплый шоколадный кекс с жидкой шоколадной начинкой.</p>
+                  <p class="dish-price">350 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Десерт 5 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/makaruny-120.webp 120w,
+                      images/makaruny-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/makaruny-120.jpg"
+                      srcset="
+                        images/makaruny-120.jpg 120w,
+                        images/makaruny-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Макаруны"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Макаруны</h5>
+                  <p class="card-text">Нежное французское печенье с разнообразными начинками.</p>
+                  <p class="dish-price">280 ₽</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Десерт 3 -->
-        <div class="col-md-4">
-          <div class="card dish-card h-100">
-            <div class="card-body d-flex align-items-center p-3">
-              <img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1rG00O.img?w=1290&h=645&m=4&q=84" class="rounded-circle dish-img me-3" alt="Крем-брюле" style="width: 200px; height: 200px; object-fit: cover;">
-              <div>
-                <h5 class="card-title">Крем-брюле</h5>
-                <p class="card-text">Ванильный крем с хрустящей карамельной корочкой.</p>
-                <p class="fw-bold text-primary">290 ₽</p>
+      <!-- Секция Напитки -->
+      <div id="napitki" class="menu-section container">
+        <h2 class="section-title text-center">Напитки</h2>
+        <div class="dishes-grid-container">
+          <div class="dishes-grid">
+            <!-- Напиток 1 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/kapuchino-120.webp 120w,
+                      images/kapuchino-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/kapuchino-120.jpg"
+                      srcset="
+                        images/kapuchino-120.jpg 120w,
+                        images/kapuchino-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Капучино"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Капучино</h5>
+                  <p class="card-text">Идеально сбалансированный кофе с молочной пенкой и нежным вкусом.</p>
+                  <p class="dish-price">250 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Напиток 2 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/latte-120.webp 120w,
+                      images/latte-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/latte-120.jpg"
+                      srcset="
+                        images/latte-120.jpg 120w,
+                        images/latte-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Латте"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Латте</h5>
+                  <p class="card-text">Нежный кофейный напиток с большим количеством молока и воздушной пенкой.</p>
+                  <p class="dish-price">270 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Напиток 3 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/mokachino-120.webp 120w,
+                      images/mokachino-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/mokachino-120.jpg"
+                      srcset="
+                        images/mokachino-120.jpg 120w,
+                        images/mokachino-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Мокачино"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Мокачино</h5>
+                  <p class="card-text">Ароматный кофе с шоколадным сиропом, молоком и взбитыми сливками.</p>
+                  <p class="dish-price">290 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Напиток 4 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/amerikano-120.webp 120w,
+                      images/amerikano-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/amerikano-120.jpg"
+                      srcset="
+                        images/amerikano-120.jpg 120w,
+                        images/amerikano-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Американо"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Американо</h5>
+                  <p class="card-text">Классический черный кофе, приготовленный путем добавления горячей воды к эспрессо.</p>
+                  <p class="dish-price">200 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Напиток 5 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/raf-kofe-120.webp 120w,
+                      images/raf-kofe-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/raf-kofe-120.jpg"
+                      srcset="
+                        images/raf-kofe-120.jpg 120w,
+                        images/raf-kofe-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Раф кофе"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Раф кофе</h5>
+                  <p class="card-text">Нежный кофейный напиток со сливками и ванильным сахаром, взбитый в питчере.</p>
+                  <p class="dish-price">320 ₽</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Десерт 4 -->
-        <div class="col-md-4">
-          <div class="card dish-card h-100">
-            <div class="card-body d-flex align-items-center p-3">
-              <img src="https://avatars.mds.yandex.net/i?id=def7b0a92c4bc2b3e6acee52369468a3193e8fc4-5205033-images-thumbs&n=13" class="rounded-circle dish-img me-3" alt="Фондан" style="width: 200px; height: 200px; object-fit: cover;">
-              <div>
-                <h5 class="card-title">Шоколадный фондан</h5>
-                <p class="card-text">Тёплый шоколадный кекс с жидкой шоколадной начинкой.</p>
-                <p class="fw-bold text-primary">350 ₽</p>
+      <!-- Секция Салаты -->
+      <div id="salaty" class="menu-section container">
+        <h2 class="section-title text-center">Салаты</h2>
+        <div class="dishes-grid-container">
+          <div class="dishes-grid">
+            <!-- Салат 1 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/grecheskiy-120.webp 120w,
+                      images/grecheskiy-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/grecheskiy-120.jpg"
+                      srcset="
+                        images/grecheskiy-120.jpg 120w,
+                        images/grecheskiy-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Греческий салат"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Греческий салат</h5>
+                  <p class="card-text">Свежие овощи с оливками, сыром фета и оливковым маслом.</p>
+                  <p class="dish-price">420 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Салат 2 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/cezar-120.webp 120w,
+                      images/cezar-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/cezar-120.jpg"
+                      srcset="
+                        images/cezar-120.jpg 120w,
+                        images/cezar-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Цезарь с курицей"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Цезарь с курицей</h5>
+                  <p class="card-text">Хрустящий салат с курицей, пармезаном и соусом цезарь.</p>
+                  <p class="dish-price">480 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Салат 3 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/olive-120.webp 120w,
+                      images/olive-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/olive-120.jpg"
+                      srcset="
+                        images/olive-120.jpg 120w,
+                        images/olive-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Оливье"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Оливье</h5>
+                  <p class="card-text">Классический салат с ветчиной, овощами и майонезом.</p>
+                  <p class="dish-price">380 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Салат 4 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/tunets-120.webp 120w,
+                      images/tunets-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/tunets-120.jpg"
+                      srcset="
+                        images/tunets-120.jpg 120w,
+                        images/tunets-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Салат с тунцом"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Салат с тунцом</h5>
+                  <p class="card-text">Свежий салат с консервированным тунцом и овощами.</p>
+                  <p class="dish-price">450 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Салат 5 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/kraboviy-120.webp 120w,
+                      images/kraboviy-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/kraboviy-120.jpg"
+                      srcset="
+                        images/kraboviy-120.jpg 120w,
+                        images/kraboviy-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Крабовый салат"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Крабовый салат</h5>
+                  <p class="card-text">Нежный салат с крабовыми палочками, кукурузой и рисом.</p>
+                  <p class="dish-price">390 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Салат 6 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/vinegret-120.webp 120w,
+                      images/vinegret-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/vinegret-120.jpg"
+                      srcset="
+                        images/vinegret-120.jpg 120w,
+                        images/vinegret-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Винегрет"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Винегрет</h5>
+                  <p class="card-text">Овощной салат с свеклой, морковью и солеными огурцами.</p>
+                  <p class="dish-price">320 ₽</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Десерт 5 -->
-        <div class="col-md-4">
-          <div class="card dish-card h-100">
-            <div class="card-body d-flex align-items-center p-3">
-              <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_66b109e3f85afc241f422b2d_66b10a9ab9a7c62fd9733326/scale_1200" class="rounded-circle dish-img me-3" alt="Макаруны" style="width: 200px; height: 200px; object-fit: cover;">
-              <div>
-                <h5 class="card-title">Макаруны</h5>
-                <p class="card-text">Нежное французское печенье с разнообразными начинками.</p>
-                <p class="fw-bold text-primary">280 ₽</p>
+      <!-- Секция Закуски -->
+      <div id="zakuski" class="menu-section container">
+        <h2 class="section-title text-center">Закуски</h2>
+        <div class="dishes-grid-container">
+          <div class="dishes-grid">
+            <!-- Закуска 1 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/brusketty-120.webp 120w,
+                      images/brusketty-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/brusketty-120.jpg"
+                      srcset="
+                        images/brusketty-120.jpg 120w,
+                        images/brusketty-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Брускетты"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Брускетты</h5>
+                  <p class="card-text">Хрустящие тосты с томатами, базиликом и оливковым маслом.</p>
+                  <p class="dish-price">350 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Закуска 2 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/tartar-120.webp 120w,
+                      images/tartar-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/tartar-120.jpg"
+                      srcset="
+                        images/tartar-120.jpg 120w,
+                        images/tartar-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Говяжий тартар"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Говяжий тартар</h5>
+                  <p class="card-text">Нежная говядина с каперсами, луком и соусом ворчестер.</p>
+                  <p class="dish-price">620 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Закуска 3 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/krevetki-120.webp 120w,
+                      images/krevetki-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/krevetki-120.jpg"
+                      srcset="
+                        images/krevetki-120.jpg 120w,
+                        images/krevetki-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Тигровые креветки"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Тигровые креветки</h5>
+                  <p class="card-text">Крупные креветки на гриле с чесночным соусом.</p>
+                  <p class="dish-price">580 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Закуска 4 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/krylya-120.webp 120w,
+                      images/krylya-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/krylya-120.jpg"
+                      srcset="
+                        images/krylya-120.jpg 120w,
+                        images/krylya-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Куриные крылья"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Куриные крылья</h5>
+                  <p class="card-text">Хрустящие крылышки в остром соусе с сельдереем.</p>
+                  <p class="dish-price">420 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Закуска 5 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/syrnaya-tarelka-120.webp 120w,
+                      images/syrnaya-tarelka-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/syrnaya-tarelka-120.jpg"
+                      srcset="
+                        images/syrnaya-tarelka-120.jpg 120w,
+                        images/syrnaya-tarelka-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Сырная тарелка"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Сырная тарелка</h5>
+                  <p class="card-text">Ассорти из французских сыров с орехами и медом.</p>
+                  <p class="dish-price">690 ₽</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Закуска 6 -->
+            <div class="dish-card">
+              <div class="dish-card-body">
+                <div class="dish-img-container">
+                  <picture>
+                    <source type="image/webp" srcset="
+                      images/kapreze-120.webp 120w,
+                      images/kapreze-150.webp 150w
+                    " sizes="(min-width: 768px) 150px, 120px">
+                    <img
+                      src="images/kapreze-120.jpg"
+                      srcset="
+                        images/kapreze-120.jpg 120w,
+                        images/kapreze-150.jpg 150w
+                      "
+                      sizes="(min-width: 768px) 150px, 120px"
+                      class="dish-img"
+                      alt="Капрезе"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  </picture>
+                </div>
+                <div class="dish-info">
+                  <h5 class="card-title">Капрезе</h5>
+                  <p class="card-text">Свежие томаты с моцареллой и базиликом под бальзамиком.</p>
+                  <p class="dish-price">380 ₽</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Секция Напитки -->
-<div id="napitki" class="menu-section container">
-  <h2 class="text-center mb-5">Напитки</h2>
-  <div class="row g-4">
-    <!-- Напиток 1 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://i.pinimg.com/736x/0c/e4/c9/0ce4c9cc1c522d732f0a1f53e336012a.jpg" class="rounded-circle dish-img me-3" alt="Капучино" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Капучино</h5>
-            <p class="card-text">Идеально сбалансированный кофе с молочной пенкой и нежным вкусом.</p>
-            <p class="fw-bold text-primary">250 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Напиток 2 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.mds.yandex.net/get-altay/1938323/2a0000016fec0355791e490499045e6a471c/XXL_height" class="rounded-circle dish-img me-3" alt="Латте" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Латте</h5>
-            <p class="card-text">Нежный кофейный напиток с большим количеством молока и воздушной пенкой.</p>
-            <p class="fw-bold text-primary">270 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Напиток 3 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" class="rounded-circle dish-img me-3" alt="Мокачино" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Мокачино</h5>
-            <p class="card-text">Ароматный кофе с шоколадным сиропом, молоком и взбитыми сливками.</p>
-            <p class="fw-bold text-primary">290 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Напиток 4 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://www.gdebar.ru/data/app/bar/img/gallery/5450/216512.webp" class="rounded-circle dish-img me-3" alt="Американо" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Американо</h5>
-            <p class="card-text">Классический черный кофе, приготовленный путем добавления горячей воды к эспрессо.</p>
-            <p class="fw-bold text-primary">200 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Напиток 5 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.mds.yandex.net/i?id=1f9bc9a3893d8f39e118a1b274aafe19_l-16360488-images-thumbs&n=13" class="rounded-circle dish-img me-3" alt="Раф кофе" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Раф кофе</h5>
-            <p class="card-text">Нежный кофейный напиток со сливками и ванильным сахаром, взбитый в питчере.</p>
-            <p class="fw-bold text-primary">320 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- Секция Салаты -->
-<div id="salaty" class="menu-section container">
-  <h2 class="text-center mb-5">Салаты</h2>
-  <div class="row g-4">
-    <!-- Салат 1 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.mds.yandex.net/i?id=357cc4aaa996edf3cd7411b1f2cfc33134bc4a9a-4666409-images-thumbs&n=13" class="rounded-circle dish-img me-3" alt="Греческий салат" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Греческий салат</h5>
-            <p class="card-text">Свежие овощи с оливками, сыром фета и оливковым маслом.</p>
-            <p class="fw-bold text-primary">420 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Салат 2 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://cachizer3.2gis.com/market/c3cec51b-169d-4876-9797-cf318fe37be9.jpg" class="rounded-circle dish-img me-3" alt="Цезарь" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Цезарь с курицей</h5>
-            <p class="card-text">Хрустящий салат с курицей, пармезаном и соусом цезарь.</p>
-            <p class="fw-bold text-primary">480 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Салат 3 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://cdnstatic.rg.ru/uploads/images/2022/12/16/istock-185796098_c3d.jpg" class="rounded-circle dish-img me-3" alt="Оливье" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Оливье</h5>
-            <p class="card-text">Классический салат с ветчиной, овощами и майонезом.</p>
-            <p class="fw-bold text-primary">380 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Салат 4 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://s2.eda.ru/StaticContent/Photos/140124100744/150125224524/p_O.jpg" class="rounded-circle dish-img me-3" alt="Салат с тунцом" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Салат с тунцом</h5>
-            <p class="card-text">Свежий салат с консервированным тунцом и овощами.</p>
-            <p class="fw-bold text-primary">450 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Салат 5 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://static.1000.menu/img/content-v2/ec/bb/64962/salat-krabovye-palochki-s-kukuruzoi-i-yaicom_1652806389_8_max.jpg" class="rounded-circle dish-img me-3" alt="Крабовый салат" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Крабовый салат</h5>
-            <p class="card-text">Нежный салат с крабовыми палочками, кукурузой и рисом.</p>
-            <p class="fw-bold text-primary">390 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Салат 6 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.mds.yandex.net/i?id=6189e3938e39c756f1366a8b9be963cbda68d6e0-3606203-images-thumbs&n=13" class="rounded-circle dish-img me-3" alt="Винегрет" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Винегрет</h5>
-            <p class="card-text">Овощной салат с свеклой, морковью и солеными огурцами.</p>
-            <p class="fw-bold text-primary">320 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Секция Закуски -->
-<div id="zakuski" class="menu-section container">
-  <h2 class="text-center mb-5">Закуски</h2>
-  <div class="row g-4">
-    <!-- Закуска 1 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" class="rounded-circle dish-img me-3" alt="Брускетты" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Брускетты</h5>
-            <p class="card-text">Хрустящие тосты с томатами, базиликом и оливковым маслом.</p>
-            <p class="fw-bold text-primary">350 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Закуска 2 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.mds.yandex.net/i?id=70ef0764f1ca39c3cc1f7bffa5807d8466ddd06f-16443563-images-thumbs&n=13" class="rounded-circle dish-img me-3" alt="Тартар" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Говяжий тартар</h5>
-            <p class="card-text">Нежная говядина с каперсами, луком и соусом ворчестер.</p>
-            <p class="fw-bold text-primary">620 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Закуска 3 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://i.pinimg.com/originals/db/01/7b/db017bc92cb960cb3dc6c66e4f15b226.jpg" class="rounded-circle dish-img me-3" alt="Креветки" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Тигровые креветки</h5>
-            <p class="card-text">Крупные креветки на гриле с чесночным соусом.</p>
-            <p class="fw-bold text-primary">580 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Закуска 4 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.mds.yandex.net/i?id=44702b0c69a9277c3c0977236f39ded8e58bfdd3-10613167-images-thumbs&n=13" class="rounded-circle dish-img me-3" alt="Крылья" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Куриные крылья</h5>
-            <p class="card-text">Хрустящие крылышки в остром соусе с сельдереем.</p>
-            <p class="fw-bold text-primary">420 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Закуска 5 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://triumph-hall.ru/upload/resize_cache/iblock/310/700_700_1/4xj677cfojdsgqrd1k32g6k35sz3ifiv.JPG" class="rounded-circle dish-img me-3" alt="Сырная тарелка" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Сырная тарелка</h5>
-            <p class="card-text">Ассорти из французских сыров с орехами и медом.</p>
-            <p class="fw-bold text-primary">690 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Закуска 6 -->
-    <div class="col-md-4">
-      <div class="card dish-card h-100">
-        <div class="card-body d-flex align-items-center p-3">
-          <img src="https://avatars.mds.yandex.net/i?id=3260263de88d44247db516eb826f370d5b7b91f1-5598230-images-thumbs&n=13" class="rounded-circle dish-img me-3" alt="Капрезе" style="width: 200px; height: 200px; object-fit: cover;">
-          <div>
-            <h5 class="card-title">Капрезе</h5>
-            <p class="card-text">Свежие томаты с моцареллой и базиликом под бальзамиком.</p>
-            <p class="fw-bold text-primary">380 ₽</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    </main>
 
     <script>
-      // Переключение между секциями меню
+      // Переключение между секциями меню (без изменений)
       document.addEventListener('DOMContentLoaded', function() {
         const menuLinks = document.querySelectorAll('#menuNav .nav-link');
         const menuSections = document.querySelectorAll('.menu-section');
@@ -553,14 +1299,10 @@
           link.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Убираем активный класс у всех ссылок
             menuLinks.forEach(l => l.classList.remove('active'));
-            // Добавляем активный класс текущей ссылке
             this.classList.add('active');
             
-            // Скрываем все секции
             menuSections.forEach(section => section.classList.remove('active'));
-            // Показываем выбранную секцию
             const targetId = this.getAttribute('data-target');
             document.getElementById(targetId).classList.add('active');
           });

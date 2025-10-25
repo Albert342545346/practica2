@@ -1,276 +1,403 @@
 <!doctype html>
 <html lang="ru">
-
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Демо Bootstrap</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Требование занятия №15 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Демо Практики №15–16</title>
+  <style>
+    /* === Базовые сбросы и переменные (занятие №15) === */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+    :root {
+      --primary: #0d6efd;
+      --primary-dark: #0a58ca;
+      --bg: #ffffff;
+      --text: #212529;
+      --text-muted: #6c757d;
+      --border: #dee2e6;
+      --shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.075);
+      --radius: 0.5rem;
+      --transition: all 0.2s ease;
+      color-scheme: light dark;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --text: #e9ecef;
+        --text-muted: #adb5bd;
+        --border: #495057;
+      }
+    }
+
+    /* === Доступность (занятие №15) === */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      z-index: 1000;
+      padding: 0.5rem 1rem;
+      background: #000;
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius);
+    }
+    .skip-link:focus,
+    .skip-link:focus-visible {
+      top: 1rem;
+    }
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      width: min(100% - 2rem, 1200px);
+      margin-inline: auto;
+      padding-inline: 1rem;
+    }
+
+    /* === Шапка === */
+    .header {
+      background-color: var(--primary);
+      color: white;
+      padding-block: 1.5rem;
+    }
+    .header-content {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      justify-content: space-between;
+    }
+    .header h1 {
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      margin: 0;
+    }
+    .header p {
+      margin: 0.25rem 0 0;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+    .badge {
+      background: white;
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 0.875rem;
+    }
+
+    /* === Навигация === */
+    .main-nav {
+      background: #212529;
+      padding-block: 0.5rem;
+    }
+    .nav-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 1rem;
+    }
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+    }
+    .nav-link.active {
+      background: white;
+      color: black;
+    }
+
+    /* === Основной контент === */
+    main {
+      padding-block: 2rem;
+    }
+    .section {
+      margin-bottom: 2.5rem;
+    }
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .card-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 1.125rem;
+    }
+    .card-body {
+      padding: 1.25rem;
+    }
+
+    /* === Профиль === */
+    .profile {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    @media (min-width: 768px) {
+      .profile {
+        grid-template-columns: 150px 1fr;
+      }
+    }
+    .profile-img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+    .profile-info h2 {
+      margin-top: 0;
+    }
+    .profile-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .badge-skill {
+      padding: 0.25rem 0.5rem;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: normal;
+    }
+
+    /* === Навыки === */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .skills-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .skill-item {
+      margin-bottom: 1rem;
+    }
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+    .progress {
+      height: 0.5rem;
+      background: var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--primary);
+    }
+
+    /* === Компании и проекты === */
+    .companies-grid,
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @container companies (min-width: 600px) {
+      .companies-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @container companies (min-width: 900px) {
+      .companies-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .company-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-top-left-radius: var(--radius);
+      border-top-right-radius: var(--radius);
+    }
+
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+    .project-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      align-items: center;
+    }
+    @media (min-width: 768px) {
+      .project-row {
+        grid-template-columns: 1fr auto;
+      }
+    }
+
+    /* === Подвал === */
+    footer {
+      background: #212529;
+      color: white;
+      padding-block: 2rem;
+      margin-top: 3rem;
+    }
+    .footer-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .footer-content {
+        grid-template-columns: 1fr auto;
+        text-align: start;
+      }
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+    }
+
+    /* === Контейнерные запросы === */
+    .companies-section {
+      container-type: inline-size;
+      container-name: companies;
+    }
+
+    /* === Поддержка reduced motion === */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
 
-  <header class="bg-primary text-white py-4">
+  <header class="header">
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col">
-          <h1 class="h3 mb-1">Мой Портфолио</h1>
-          <p class="mb-0 opacity-75">Студент разработчик</p>
+      <div class="header-content">
+        <div>
+          <h1>Мой Портфолио</h1>
+          <p>Студент разработчик</p>
         </div>
-        <div class="col-auto">
-          <span class="badge bg-light text-primary">ЭФБО-09-24</span>
-        </div>
+        <div class="badge">ЭФБО-09-24</div>
       </div>
     </div>
   </header>
 
-  <nav class="nav nav-tabs justify-content-center bg-dark">
-    <div class="nav-item">
-        <a class="nav-link text-white" href="index.html">Главная</a>
-    </div>
-    <div class="nav-item">
-        <a class="nav-link text-white" href="index2.html">№3 Практика</a>
-    </div>
-    <div class="nav-item">
-        <a class="nav-link active text-black bg-light" aria-current="page" href="#">№12 Практика</a>
+  <nav class="main-nav" aria-label="Основная навигация">
+    <div class="container">
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">Главная</a></li>
+        <li><a class="nav-link" href="index2.html">№3 Практика</a></li>
+        <li><a class="nav-link active" href="#" aria-current="page">№12 Практика</a></li>
+      </ul>
     </div>
   </nav>
 
-  <main class="container my-4">
-<!-- Profile Section -->
-<section class="mb-5">
-  <div class="card shadow-sm">
-    <div class="card-body p-4">
-      <div class="row align-items-center">
-        <div class="col-md-3 text-center mb-3 mb-md-0">
-          <img src="images/1.jpg" alt="Фото студента" class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
-        </div>
-        <div class="col-md-9">
-          <h2 class="card-title h4 text-dark">Алимов Альберт Радикович</h2>
-          <p class="card-text text-muted mb-2">
-            <i class="bi bi-bookmark-check-fill text-primary"></i>
-            Студент группы ЭФБО-09-24
-          </p>
-          <p class="card-text">
-            Факультет информационных технологий, специальность "Веб-разработка"
-          </p>
-          <div class="d-flex gap-2 flex-wrap align-items-center">
-            <!-- Bootstrap Dropdown -->
-            <div class="dropdown">
-              <button class="btn btn-outline-secondary btn-sm dropdown-toggle d-flex align-items-center gap-1" 
-                      type="button" 
-                      data-bs-toggle="dropdown" 
-                      aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="currentColor">
-                  <path d="M120-80v-80h720v80H120Zm0-240v-80h720v80H120Zm0-240v-80h720v80H120Zm0-240v-80h720v80H120Z"/>
-                </svg>
-                Мои сайты
-              </button>
-              <ul class="dropdown-menu">
-                <li><h6 class="dropdown-header">Мои проекты</h6></li>
-                <li><a class="dropdown-item" href="https://github.com/Albert342545346" target="_blank">
-                  <i class="bi bi-github me-2"></i>GitHub
-                </a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="https://www.mirea.ru/schedule/" target="_blank">
-                  <i class="bi bi-building me-2"></i>Университет
-                </a></li>
-              </ul>
+  <main id="main" class="container">
+    <!-- Profile -->
+    <section class="section">
+      <div class="card">
+        <div class="card-body">
+          <div class="profile">
+            <img src="images/1.jpg" alt="Фото студента Алимова Альберта" class="profile-img" width="150" height="150" loading="lazy">
+            <div class="profile-info">
+              <h2>Алимов Альберт Радикович</h2>
+              <p><strong>Студент группы ЭФБО-09-24</strong></p>
+              <p>Факультет информационных технологий, специальность "Веб-разработка"</p>
+              <div class="profile-badges">
+                <span class="badge-skill" style="background:#e7f1ff; color:var(--primary)">HTML/CSS</span>
+                <span class="badge-skill" style="background:#f2f9f2; color:green">JavaScript</span>
+                <span class="badge-skill" style="background:#eef7ff; color:#0dcaf0">Bootstrap</span>
+                <span class="badge-skill" style="background:#fff8e1; color:#ffc107">React</span>
+              </div>
             </div>
-
-            <span class="badge bg-primary">HTML/CSS</span>
-            <span class="badge bg-success">JavaScript</span>
-            <span class="badge bg-info">Bootstrap</span>
-            <span class="badge bg-warning">React</span>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<style>
-/* Стили для кнопки и выпадающего меню */
-#sitesMenuButton {
-  transition: all 0.2s ease;
-  border: 1px solid #6c757d;
-}
-
-#sitesMenuButton:hover {
-  background-color: #6c757d;
-  color: white;
-  transform: translateY(-1px);
-}
-
-.dropdown-menu {
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.375rem;
-}
-
-.dropdown-item {
-  padding: 0.5rem 1rem;
-  transition: background-color 0.2s ease;
-}
-
-.dropdown-item:hover {
-  background-color: #f8f9fa;
-}
-
-.dropdown-item:active {
-  background-color: #e9ecef;
-}
-
-/* Анимация появления меню */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.dropdown-menu.show {
-  display: block !important;
-  animation: fadeIn 0.2s ease;
-}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const menuButton = document.getElementById('sitesMenuButton');
-  const dropdown = document.getElementById('sitesDropdown');
-  let isMenuOpen = false;
-
-  // Функция для открытия/закрытия меню
-  function toggleMenu() {
-    isMenuOpen = !isMenuOpen;
-    
-    if (isMenuOpen) {
-      dropdown.classList.add('show');
-      menuButton.setAttribute('aria-expanded', 'true');
-    } else {
-      dropdown.classList.remove('show');
-      menuButton.setAttribute('aria-expanded', 'false');
-    }
-  }
-
-  // Обработчик клика по кнопке
-  menuButton.addEventListener('click', function(e) {
-    e.stopPropagation();
-    toggleMenu();
-  });
-
-  // Закрытие меню при клике вне его
-  document.addEventListener('click', function(e) {
-    if (isMenuOpen && !menuButton.contains(e.target) && !dropdown.contains(e.target)) {
-      dropdown.classList.remove('show');
-      menuButton.setAttribute('aria-expanded', 'false');
-      isMenuOpen = false;
-    }
-  });
-
-  // Закрытие меню при нажатии Escape
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && isMenuOpen) {
-      dropdown.classList.remove('show');
-      menuButton.setAttribute('aria-expanded', 'false');
-      isMenuOpen = false;
-    }
-  });
-
-  // Поддержка клавиатуры для кнопки
-  menuButton.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      toggleMenu();
-    }
-  });
-
-  // Предотвращение закрытия меню при клике внутри него
-  dropdown.addEventListener('click', function(e) {
-    e.stopPropagation();
-  });
-});
-</script>
-
-    <!-- About Section -->
-    <section class="mb-5">
-      <div class="card shadow-sm">
-        <div class="card-header bg-light">
-          <h3 class="card-title h5 mb-0">
-            <i class="bi bi-person-circle text-primary">
-              Обо мне
-            </i>
-          </h3>
-        </div>
+    <!-- About -->
+    <section class="section">
+      <div class="card">
+        <div class="card-header">Обо мне</div>
         <div class="card-body">
-          <p class="card-text">
-            Леген... подожди-подожди... дарно!
-          </p>
-          <div class="ratio ratio-16x9">
-            <video controls poster="images/video-poster.jpg">
+          <p>Леген... подожди-подожди... дарно!</p>
+          <div style="margin-top: 1rem;">
+            <video controls poster="images/video-poster.jpg" style="width:100%; border-radius:var(--radius);" width="640" height="360">
               <source src="images/video.mp4" type="video/mp4">
-              Ваш браузер не поддерживает элемент video.
+              Ваш браузер не поддерживает видео.
             </video>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Skills Section -->
-    <section class="mb-5">
-      <div class="card shadow-sm">
-        <div class="card-header bg-light">
-          <h3 class="card-title h5 mb-0">
-            <i class="bi bi-tools text-primary"></i>
-            Мои навыки
-          </h3>
-        </div>
+    <!-- Skills -->
+    <section class="section">
+      <div class="card">
+        <div class="card-header">Мои навыки</div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="mb-3">
-                <div class="d-flex justify-content-between mb-1">
+          <div class="skills-grid">
+            <div>
+              <div class="skill-item">
+                <div class="skill-header">
                   <span>HTML/CSS</span>
-                  <span class="text-primary">90%</span>
+                  <span>90%</span>
                 </div>
-                <div class="progress" style="height: 8px;">
-                  <div class="progress-bar bg-primary" style="width: 90%"></div>
-                </div>
+                <div class="progress"><div class="progress-bar" style="width:90%"></div></div>
               </div>
-              <div class="mb-3">
-                <div class="d-flex justify-content-between mb-1">
+              <div class="skill-item">
+                <div class="skill-header">
                   <span>JavaScript</span>
-                  <span class="text-primary">10%</span>
+                  <span>10%</span>
                 </div>
-                <div class="progress" style="height: 8px;">
-                  <div class="progress-bar bg-success" style="width: 10%"></div>
-                </div>
+                <div class="progress"><div class="progress-bar" style="width:10%; background:green"></div></div>
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="mb-3">
-                <div class="d-flex justify-content-between mb-1">
+            <div>
+              <div class="skill-item">
+                <div class="skill-header">
                   <span>Bootstrap</span>
-                  <span class="text-primary">50%</span>
+                  <span>50%</span>
                 </div>
-                <div class="progress" style="height: 8px;">
-                  <div class="progress-bar bg-info" style="width: 50%"></div>
-                </div>
+                <div class="progress"><div class="progress-bar" style="width:50%; background:#0dcaf0"></div></div>
               </div>
-              <div class="mb-3">
-                <div class="d-flex justify-content-between mb-1">
+              <div class="skill-item">
+                <div class="skill-header">
                   <span>React</span>
-                  <span class="text-primary">0%</span>
+                  <span>0%</span>
                 </div>
-                <div class="progress" style="height: 8px;">
-                  <div class="progress-bar bg-warning" style="width: 0%"></div>
-                </div>
+                <div class="progress"><div class="progress-bar" style="width:0%; background:#ffc107"></div></div>
               </div>
             </div>
           </div>
@@ -278,49 +405,52 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </section>
 
-    <!-- Company Section -->
-    <section class="mb-5">
-      <div class="card shadow-sm">
-        <div class="card-header bg-light">
-          <h3 class="card-title h5 mb-0">
-            <i class="bi bi-folder-fill text-primary"></i>
-            Мои компании
-          </h3>
-        </div>
+    <!-- Companies -->
+    <section class="section companies-section">
+      <div class="card">
+        <div class="card-header">Мои компании</div>
         <div class="card-body">
-          <div class="row g-3">
-            <div class="col-md-4">
-              <div class="card h-100">
-                <img src="images/2.jpg" class="card-img-top" alt="Школьные друзья" style="height: 150px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title">Школьные друзья</h5>
-                  <p class="card-text small text-muted flex-grow-1">
-                    Друзья, с которых всё началось. Нас связала не общая работа или интересы, а сама жизнь.
-                  </p>
-                </div>
+          <div class="companies-grid">
+            <div class="company-card">
+              <img src="images/2.jpg" alt="Школьные друзья" loading="lazy">
+              <div class="card-body">
+                <h3>Школьные друзья</h3>
+                <p class="text-muted">Друзья, с которых всё началось...</p>
               </div>
             </div>
-
-            <div class="col-md-4">
-              <div class="card h-100">
-                <img src="images/3.jpg" class="card-img-top" alt="Вузовские друзья" style="height: 150px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title">Вузовские друзья</h5>
-                  <p class="card-text small text-muted flex-grow-1">
-                    От лабораторных до ночных бдений, от мудростей учебников до безумств в коридорах — мы везде вместе. Это мои люди: партнёры по квесту под названием «студенчество».
-                  </p>
-                </div>
+            <div class="company-card">
+              <img src="images/3.jpg" alt="Вузовские друзья" loading="lazy">
+              <div class="card-body">
+                <h3>Вузовские друзья</h3>
+                <p class="text-muted">От лабораторных до ночных бдений...</p>
               </div>
             </div>
+            <div class="company-card">
+              <img src="images/placeholder.jpg" alt="Будущий проект" loading="lazy">
+              <div class="card-body">
+                <h3>Будущий проект</h3>
+                <p class="text-muted">Здесь скоро появится описание...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="col-md-4">
-              <div class="card h-100">
-                <img src="https://via.placeholder.com/300x150/6c757d/ffffff?text=Placeholder" class="card-img-top" alt="Будущий проект" style="height: 150px; object-fit: cover;">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title">Будущий проект</h5>
-                  <p class="card-text small text-muted flex-grow-1">
-                    Здесь скоро появится описание нового проекта.
-                  </p>
+    <!-- Projects -->
+    <section class="section">
+      <div class="card">
+        <div class="card-header">Мои проекты</div>
+        <div class="card-body">
+          <div class="projects-grid">
+            <div class="card">
+              <div class="card-body">
+                <div class="project-row">
+                  <div>
+                    <h3>Проект 1</h3>
+                    <p class="text-muted">Задание по фронтенду</p>
+                  </div>
+                  <a href="Project1.html" class="btn" style="background:var(--primary); color:white; text-decoration:none; padding:0.5rem 1rem; border-radius:var(--radius); display:inline-block;">Перейти к проекту</a>
                 </div>
               </div>
             </div>
@@ -330,55 +460,16 @@ document.addEventListener('DOMContentLoaded', function() {
     </section>
   </main>
 
-  <!-- Project Section -->
-  <section class="mb-5">
-    <div class="card shadow-sm">
-      <div class="card-header bg-light">
-        <h3 class="card-title h5 mb-0">
-          <i class="bi bi-folder-fill text-primary"></i>
-          Мои проекты
-        </h3>
-      </div>
-      <div class="card-body">
-        <div class="row g-3">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <div class="row align-items-center">
-                  <div class="col-md-8">
-                    <h5 class="card-title">Проект 1</h5>
-                    <p class="card-text small text-muted mb-0">
-                      Задание по фронтенду
-                    </p>
-                  </div>
-                  <div class="col-md-4 text-md-end">
-                    <a href="Project1.html" class="btn btn-success">Перейти к проекту</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-</section>
-
-  <!-- Footer -->
-  <footer class="bg-dark text-white py-4 mt-5">
+  <footer>
     <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-6">
-          <p class="mb-0">&copy; 2024 Портфолио студента. Все права защищены.</p>
-        </div>
-        <div class="col-md-6 text-md-end">
-          <a href="pages/contacts.html" class="text-white text-decoration-none me-3">Контакты</a>
-          <a href="#" class="text-white text-decoration-none">Политика конфиденциальности</a>
+      <div class="footer-content">
+        <div>&copy; 2024 Портфолио студента. Все права защищены.</div>
+        <div class="footer-links">
+          <a href="pages/contacts.html">Контакты</a>
+          <a href="#">Политика конфиденциальности</a>
         </div>
       </div>
     </div>
   </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
