@@ -23,6 +23,8 @@
         object-fit: cover;
         flex-shrink: 0;
       }
+      
+      /* Стили для прокручиваемого меню */
       .nav-pills-scroll {
         overflow-x: auto;
         white-space: nowrap;
@@ -30,6 +32,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         -ms-overflow-style: none;
+        position: relative;
       }
       .nav-pills-scroll::-webkit-scrollbar {
         display: none;
@@ -37,6 +40,49 @@
       .nav-pills-scroll .nav-item {
         display: inline-block;
         float: none;
+      }
+      
+      /* Кнопки прокрутки */
+      .scroll-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        color: #d15555;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        z-index: 10;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      }
+      
+      .scroll-btn:hover {
+        background: white;
+        transform: translateY(-50%) scale(1.1);
+      }
+      
+      .scroll-left {
+        left: 10px;
+      }
+      
+      .scroll-right {
+        right: 10px;
+      }
+      
+      /* Индикатор прокрутки */
+      .scroll-indicator {
+        text-align: center;
+        margin-top: 10px;
+        font-size: 0.8rem;
+        color: white;
+        opacity: 0.7;
       }
       
       /* Адаптивные стили */
@@ -78,6 +124,11 @@
         .nav-pills .nav-link {
           padding: 0.5rem 0.75rem;
           font-size: 0.9rem;
+        }
+        .scroll-btn {
+          width: 35px;
+          height: 35px;
+          font-size: 1rem;
         }
       }
       
@@ -185,11 +236,12 @@
     </div>
   </div>
 
-  <!-- Исправленное меню категорий -->
+  <!-- Исправленное меню категорий с прокруткой -->
   <div style="background-color: #d15555; padding: 1.5rem 0;">
-    <div class="container">
+    <div class="container position-relative">
       <div class="row justify-content-center">
-        <div class="col-auto">
+        <div class="col-12 position-relative">
+          <button class="scroll-btn scroll-left d-none d-md-flex" onclick="scrollMenu(-1)">‹</button>
           <ul class="nav nav-pills bg-white p-3 rounded shadow nav-pills-scroll" id="menuNav">
             <li class="nav-item">
               <a class="nav-link active mx-1" href="#gorjachee" data-target="gorjachee">Горячее</a>
@@ -206,7 +258,8 @@
             <li class="nav-item">
               <a class="nav-link mx-1" href="#zakuski" data-target="zakuski">Закуски</a>
             </li>
-          </ul>
+          <button class="scroll-btn scroll-right d-none d-md-flex" onclick="scrollMenu(1)">›</button>
+          <div class="scroll-indicator d-md-none">← Прокрутите для просмотра всех категорий →</div>
         </div>
       </div>
     </div>
@@ -624,7 +677,21 @@
       document.addEventListener('DOMContentLoaded', function() {
         const menuLinks = document.querySelectorAll('#menuNav .nav-link');
         const menuSections = document.querySelectorAll('.menu-section');
+        const menuNav = document.getElementById('menuNav');
         
+        // Функция для прокрутки меню
+        window.scrollMenu = function(direction) {
+          const scrollAmount = 200;
+          menuNav.scrollLeft += direction * scrollAmount;
+          updateScrollButtons();
+        };
+        
+        // Функция для обновления видимости кнопок прокрутки
+        function updateScrollButtons() {
+          // В реальном проекте можно добавить логику скрытия кнопок при достижении края
+        }
+        
+        // Обработчики для навигации по меню
         menuLinks.forEach(link => {
           link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -642,18 +709,30 @@
           });
         });
         
+        // Автоматическая прокрутка меню каждые 5 секунд
+        setInterval(() => {
+          if (menuNav.scrollLeft + menuNav.clientWidth >= menuNav.scrollWidth - 10) {
+            menuNav.scrollTo({left: 0, behavior: 'smooth'});
+          } else {
+            menuNav.scrollBy({left: 200, behavior: 'smooth'});
+          }
+        }, 5000);
+        
         // Адаптация для мобильных устройств
         function adjustForMobile() {
           if (window.innerWidth < 768) {
-            document.getElementById('menuNav').classList.add('nav-pills-scroll');
+            menuNav.classList.add('nav-pills-scroll');
           } else {
-            document.getElementById('menuNav').classList.remove('nav-pills-scroll');
+            menuNav.classList.remove('nav-pills-scroll');
           }
         }
         
         // Вызываем при загрузке и изменении размера окна
         adjustForMobile();
         window.addEventListener('resize', adjustForMobile);
+        
+        // Инициализация кнопок прокрутки
+        updateScrollButtons();
       });
   </script>
 </body>
