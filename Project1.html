@@ -17,61 +17,131 @@
       .menu-section.active {
         display: block;
       }
-/* === Адаптивные карточки с учётом zoom === */
-.dish-card {
-  transition: var(--transition);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.dish-card-body {
-  display: flex;
-  flex-direction: column;
-  padding: clamp(0.75rem, 2vw, 1.5rem);
-  gap: 1rem;
-}
-@media (min-width: 768px) {
-  .dish-card-body {
-    flex-direction: row;
-    align-items: center;
-  }
-}
-.dish-img-container {
-  flex-shrink: 0;
-  border-radius: 50%;
-  overflow: hidden;
-  width: clamp(80px, 20vw, 120px);
-  height: clamp(80px, 20vw, 120px);
-  aspect-ratio: 1 / 1;
-}
-.dish-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.dish-info h5 {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  margin-bottom: 0.5rem;
-  overflow-wrap: break-word;
-}
-.dish-price {
-  font-size: clamp(1rem, 2vw, 1.125rem);
-  font-weight: bold;
-  color: var(--primary-color);
-  margin: 0;
-}
+      .dish-img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+      .nav-pills-scroll {
+        overflow-x: auto;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+      .nav-pills-scroll .nav-item {
+        display: inline-block;
+        float: none;
+      }
+      
+      /* Адаптивные стили */
+      @media (max-width: 768px) {
+        .hero-section {
+          min-height: 70vh;
+        }
+        .dish-card .card-body {
+          flex-direction: column;
+          text-align: center;
+        }
+        .dish-img {
+          margin-bottom: 1rem;
+          margin-right: 0 !important;
+        }
+        .card-title {
+          font-size: 1.1rem;
+        }
+        .card-text {
+          font-size: 0.9rem;
+        }
+        .display-5 {
+          font-size: 2rem;
+        }
+        .lead {
+          font-size: 1rem;
+        }
+        .navbar .container-fluid {
+          flex-wrap: wrap;
+        }
+        .navbar .d-flex {
+          order: 3;
+          width: 100%;
+          margin-top: 1rem;
+        }
+      }
+      
+      @media (max-width: 576px) {
+        .hero-section {
+          min-height: 60vh;
+        }
+        .dish-img {
+          width: 100px;
+          height: 100px;
+        }
+        .menu-section {
+          padding: 1.5rem 0;
+        }
+        .display-5 {
+          font-size: 1.75rem;
+        }
+        .container-fluid {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
+        .navbar-brand {
+          font-size: 1rem;
+        }
+        .btn {
+          font-size: 0.875rem;
+          padding: 0.375rem 0.75rem;
+        }
+        .nav-pills {
+          padding: 1rem !important;
+        }
+        .nav-pills .nav-link {
+          padding: 0.5rem 0.75rem;
+          font-size: 0.9rem;
+        }
+      }
+      
+      @media (max-width: 400px) {
+        .dish-img {
+          width: 80px;
+          height: 80px;
+        }
+        .card-body {
+          padding: 1rem;
+        }
+        .display-5 {
+          font-size: 1.5rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+      }
   </style>
 </head>
 <body>
-  <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-      <a class="navbar-brand text-white">Logo</a> <a class="btn btn-outline-primary" href="index3.html">Вернуться обратно</a>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+  <!-- Исправленная навигация -->
+  <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white">Logo</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="index3.html">Вернуться обратно</a>
+          </li>
+        </ul>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+      </div>
     </div>
   </nav>
+
   <div class="container-fluid hero-section">
     <div class="row h-100">
       <div class="col-md-6 d-flex align-items-center">
@@ -80,12 +150,19 @@
           <p class="lead">Ниже представлено всё, чего вы желаете</p>
         </div>
       </div>
-      <div class="col-md-6 p-0"><img src="https://stoneplanet.ru/thumb/2/TNId-9Zf9Qd1sqfiS0mGJQ/600r600/d/choose_caravaggio_quartzite_get_designer-style_look.jpg" class="img-fluid w-100 h-100" style="object-fit: cover;" alt="Интерьер ресторана"></div>
+      <div class="col-md-6 p-0">
+        <img src="https://stoneplanet.ru/thumb/2/TNId-9Zf9Qd1sqfiS0mGJQ/600r600/d/choose_caravaggio_quartzite_get_designer-style_look.jpg" 
+             class="img-fluid w-100 h-100" 
+             style="object-fit: cover;" 
+             alt="Интерьер ресторана">
+      </div>
     </div>
   </div>
+
   <div style="background-color: #d15555; padding: 2rem 0;">
-    <div class="container d-flex justify-content-center">
-      <ul class="nav nav-pills bg-white p-3 rounded shadow" id="menuNav">
+    <div class="container">
+      <!-- Добавлен класс для горизонтальной прокрутки на мобильных -->
+      <ul class="nav nav-pills bg-white p-3 rounded shadow nav-pills-scroll" id="menuNav">
         <li class="nav-item">
           <a class="nav-link active" href="#gorjachee" data-target="gorjachee">Горячее</a>
         </li>
@@ -104,13 +181,15 @@
       </ul>
     </div>
   </div>
+
+  <!-- Обновленная сетка для карточек -->
   <div id="gorjachee" class="menu-section active container">
     <h2 class="text-center mb-5">Горячие блюда</h2>
     <div class="row g-4">
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://www.owoman.ru/assets/images/cook/govjazhi_mozgi2.jpg" class="rounded-circle dish-img me-3" alt="Жареный мозг" loading="lazy" width="120" height="120">
+            <img src="https://www.owoman.ru/assets/images/cook/govjazhi_mozgi2.jpg" class="rounded-circle dish-img me-3" alt="Жареный мозг" loading="lazy">
             <div>
               <h5 class="card-title">Жареный мозг</h5>
               <p class="card-text">Нежнейшие кусочки телячьего мозга в хрустящей панцировке с каперсами и лимонным соусом. Для истинных гурманов!</p>
@@ -119,10 +198,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://www.gourmetfoodstore.com/images/PRODUCT/large/2859_1_.jpg" class="rounded-circle dish-img me-3" alt="Улитки" loading="lazy" width="120" height="120">
+            <img src="https://www.gourmetfoodstore.com/images/PRODUCT/large/2859_1_.jpg" class="rounded-circle dish-img me-3" alt="Улитки" loading="lazy">
             <div>
               <h5 class="card-title">Улитки по-бургундски</h5>
               <p class="card-text">Виноградные улитки, томленные в чесночном масле с петрушкой и пряными травами. Подаются с хрустящим багетом.</p>
@@ -131,10 +210,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.dzeninfra.ru/get-zen_doc/10122231/pub_650bf607823c145d418d09de_650d51cf3f483f2825a29041/scale_1200" class="rounded-circle dish-img me-3" alt="Скорпион" loading="lazy" width="120" height="120">
+            <img src="https://avatars.dzeninfra.ru/get-zen_doc/10122231/pub_650bf607823c145d418d09de_650d51cf3f483f2825a29041/scale_1200" class="rounded-circle dish-img me-3" alt="Скорпион" loading="lazy">
             <div>
               <h5 class="card-title">Жареные скорпионы</h5>
               <p class="card-text">Хрустящие скорпионы во фритюре с острым соусом чили и кунжутом. Экзотика, которая вас удивит!</p>
@@ -143,10 +222,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_65a42eafd19d094d69f37f14_65a42f3dc690d6570c0cb07f/scale_1200" class="rounded-circle dish-img me-3" alt="Змея" loading="lazy" width="120" height="120">
+            <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_65a42eafd19d094d69f37f14_65a42f3dc690d6570c0cb07f/scale_1200" class="rounded-circle dish-img me-3" alt="Змея" loading="lazy">
             <div>
               <h5 class="card-title">Жареная змея</h5>
               <p class="card-text">Нежное мясо питона с овощами в соевом соусе. По вкусу напоминает курицу, но с экзотическими нотками.</p>
@@ -155,10 +234,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://media-cdn.tripadvisor.com/media/photo-s/1c/0f/58/f0/caption.jpg" class="rounded-circle dish-img me-3" alt="Овечьи глаза" loading="lazy" width="120" height="120">
+            <img src="https://media-cdn.tripadvisor.com/media/photo-s/1c/0f/58/f0/caption.jpg" class="rounded-circle dish-img me-3" alt="Овечьи глаза" loading="lazy">
             <div>
               <h5 class="card-title">Овечьи глаза</h5>
               <p class="card-text">Традиционное блюдо с нежной текстурой, приготовленное с луком и специями. Для смелых экспериментаторов!</p>
@@ -167,10 +246,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_6846de1a33562a4b4137e567_6846f0c6a3b41c256ae97034/scale_1200" class="rounded-circle dish-img me-3" alt="Балют" loading="lazy" width="120" height="120">
+            <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_6846de1a33562a4b4137e567_6846f0c6a3b41c256ae97034/scale_1200" class="rounded-circle dish-img me-3" alt="Балют" loading="lazy">
             <div>
               <h5 class="card-title">Балют</h5>
               <p class="card-text">Филиппинский деликатес - утиный эмбрион с перьями и костями. Подается с солью и уксусом.</p>
@@ -179,10 +258,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://ko44.ru/media/main_photos/2025/07/02/image-1750765196_0547.png.webp.877x493_q85_box-20,0,820,450_crop_detail_upscale.jpg" class="rounded-circle dish-img me-3" alt="Хакарл" loading="lazy" width="120" height="120">
+            <img src="https://ko44.ru/media/main_photos/2025/07/02/image-1750765196_0547.png.webp.877x493_q85_box-20,0,820,450_crop_detail_upscale.jpg" class="rounded-circle dish-img me-3" alt="Хакарл" loading="lazy">
             <div>
               <h5 class="card-title">Хакарл</h5>
               <p class="card-text">Исландский деликатес - ферментированное мясо акулы с резким ароматом и уникальным вкусом.</p>
@@ -191,10 +270,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://i.pinimg.com/736x/90/53/39/905339b3eef74160194a070b8526c078.jpg" class="rounded-circle dish-img me-3" alt="Кузнечики" loading="lazy" width="120" height="120">
+            <img src="https://i.pinimg.com/736x/90/53/39/905339b3eef74160194a070b8526c078.jpg" class="rounded-circle dish-img me-3" alt="Кузнечики" loading="lazy">
             <div>
               <h5 class="card-title">Кузнечики</h5>
               <p class="card-text">Хрустящие кузнечики. Необычное сочетание сладкого и соленого с хрустящей текстурой.</p>
@@ -203,10 +282,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://i.pinimg.com/originals/d7/31/8d/d7318daf61630202ddca7e8805d0fd26.jpg" class="rounded-circle dish-img me-3" alt="Глаза тунца" loading="lazy" width="120" height="120">
+            <img src="https://i.pinimg.com/originals/d7/31/8d/d7318daf61630202ddca7e8805d0fd26.jpg" class="rounded-circle dish-img me-3" alt="Глаза тунца" loading="lazy">
             <div>
               <h5 class="card-title">Глаза тунца</h5>
               <p class="card-text">Нежные глаза тунца, тушенные в соевом соусе с имбирем. По консистенции напоминают кальмаров.</p>
@@ -217,13 +296,14 @@
       </div>
     </div>
   </div>
+
   <div id="deserty" class="menu-section container">
     <h2 class="text-center mb-5">Десерты</h2>
     <div class="row g-4">
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1H7gbo.img?w=1000&amp;h=707&amp;m=4&amp;q=99" class="rounded-circle dish-img me-3" alt="Тирамису" loading="lazy" width="120" height="120">
+            <img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1H7gbo.img?w=1000&amp;h=707&amp;m=4&amp;q=99" class="rounded-circle dish-img me-3" alt="Тирамису" loading="lazy">
             <div>
               <h5 class="card-title">Тирамису</h5>
               <p class="card-text">Классический итальянский десерт с кофе и маскарпоне.</p>
@@ -232,10 +312,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/i?id=22311dc6b809da2359eb66e02e171123d7690199-4567142-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Чизкейк" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/i?id=22311dc6b809da2359eb66e02e171123d7690199-4567142-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Чизкейк" loading="lazy">
             <div>
               <h5 class="card-title">Нью-Йорк чизкейк</h5>
               <p class="card-text">Нежный чизкейк с ванильным кремом и ягодным соусом.</p>
@@ -244,10 +324,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1rG00O.img?w=1290&amp;h=645&amp;m=4&amp;q=84" class="rounded-circle dish-img me-3" alt="Крем-брюле" loading="lazy" width="120" height="120">
+            <img src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1rG00O.img?w=1290&amp;h=645&amp;m=4&amp;q=84" class="rounded-circle dish-img me-3" alt="Крем-брюле" loading="lazy">
             <div>
               <h5 class="card-title">Крем-брюле</h5>
               <p class="card-text">Ванильный крем с хрустящей карамельной корочкой.</p>
@@ -256,10 +336,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/i?id=def7b0a92c4bc2b3e6acee52369468a3193e8fc4-5205033-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Фондан" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/i?id=def7b0a92c4bc2b3e6acee52369468a3193e8fc4-5205033-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Фондан" loading="lazy">
             <div>
               <h5 class="card-title">Шоколадный фондан</h5>
               <p class="card-text">Тёплый шоколадный кекс с жидкой шоколадной начинкой.</p>
@@ -268,10 +348,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_66b109e3f85afc241f422b2d_66b10a9ab9a7c62fd9733326/scale_1200" class="rounded-circle dish-img me-3" alt="Макаруны" loading="lazy" width="120" height="120">
+            <img src="https://avatars.dzeninfra.ru/get-zen_doc/271828/pub_66b109e3f85afc241f422b2d_66b10a9ab9a7c62fd9733326/scale_1200" class="rounded-circle dish-img me-3" alt="Макаруны" loading="lazy">
             <div>
               <h5 class="card-title">Макаруны</h5>
               <p class="card-text">Нежное французское печенье с разнообразными начинками.</p>
@@ -282,13 +362,14 @@
       </div>
     </div>
   </div>
+
   <div id="napitki" class="menu-section container">
     <h2 class="text-center mb-5">Напитки</h2>
     <div class="row g-4">
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://i.pinimg.com/736x/0c/e4/c9/0ce4c9cc1c522d732f0a1f53e336012a.jpg" class="rounded-circle dish-img me-3" alt="Капучино" loading="lazy" width="120" height="120">
+            <img src="https://i.pinimg.com/736x/0c/e4/c9/0ce4c9cc1c522d732f0a1f53e336012a.jpg" class="rounded-circle dish-img me-3" alt="Капучино" loading="lazy">
             <div>
               <h5 class="card-title">Капучино</h5>
               <p class="card-text">Идеально сбалансированный кофе с молочной пенкой и нежным вкусом.</p>
@@ -297,10 +378,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/get-altay/1938323/2a0000016fec0355791e490499045e6a471c/XXL_height" class="rounded-circle dish-img me-3" alt="Латте" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/get-altay/1938323/2a0000016fec0355791e490499045e6a471c/XXL_height" class="rounded-circle dish-img me-3" alt="Латте" loading="lazy">
             <div>
               <h5 class="card-title">Латте</h5>
               <p class="card-text">Нежный кофейный напиток с большим количеством молока и воздушной пенкой.</p>
@@ -309,10 +390,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80" class="rounded-circle dish-img me-3" alt="Мокачино" loading="lazy" width="120" height="120">
+            <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80" class="rounded-circle dish-img me-3" alt="Мокачино" loading="lazy">
             <div>
               <h5 class="card-title">Мокачино</h5>
               <p class="card-text">Ароматный кофе с шоколадным сиропом, молоком и взбитыми сливками.</p>
@@ -321,10 +402,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://www.gdebar.ru/data/app/bar/img/gallery/5450/216512.webp" class="rounded-circle dish-img me-3" alt="Американо" loading="lazy" width="120" height="120">
+            <img src="https://www.gdebar.ru/data/app/bar/img/gallery/5450/216512.webp" class="rounded-circle dish-img me-3" alt="Американо" loading="lazy">
             <div>
               <h5 class="card-title">Американо</h5>
               <p class="card-text">Классический черный кофе, приготовленный путем добавления горячей воды к эспрессо.</p>
@@ -333,10 +414,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/i?id=1f9bc9a3893d8f39e118a1b274aafe19_l-16360488-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Раф кофе" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/i?id=1f9bc9a3893d8f39e118a1b274aafe19_l-16360488-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Раф кофе" loading="lazy">
             <div>
               <h5 class="card-title">Раф кофе</h5>
               <p class="card-text">Нежный кофейный напиток со сливками и ванильным сахаром, взбитый в питчере.</p>
@@ -347,13 +428,14 @@
       </div>
     </div>
   </div>
+
   <div id="salaty" class="menu-section container">
     <h2 class="text-center mb-5">Салаты</h2>
     <div class="row g-4">
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/i?id=357cc4aaa996edf3cd7411b1f2cfc33134bc4a9a-4666409-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Греческий салат" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/i?id=357cc4aaa996edf3cd7411b1f2cfc33134bc4a9a-4666409-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Греческий салат" loading="lazy">
             <div>
               <h5 class="card-title">Греческий салат</h5>
               <p class="card-text">Свежие овощи с оливками, сыром фета и оливковым маслом.</p>
@@ -362,10 +444,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://cachizer3.2gis.com/market/c3cec51b-169d-4876-9797-cf318fe37be9.jpg" class="rounded-circle dish-img me-3" alt="Цезарь" loading="lazy" width="120" height="120">
+            <img src="https://cachizer3.2gis.com/market/c3cec51b-169d-4876-9797-cf318fe37be9.jpg" class="rounded-circle dish-img me-3" alt="Цезарь" loading="lazy">
             <div>
               <h5 class="card-title">Цезарь с курицей</h5>
               <p class="card-text">Хрустящий салат с курицей, пармезаном и соусом цезарь.</p>
@@ -374,10 +456,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://cdnstatic.rg.ru/uploads/images/2022/12/16/istock-185796098_c3d.jpg" class="rounded-circle dish-img me-3" alt="Оливье" loading="lazy" width="120" height="120">
+            <img src="https://cdnstatic.rg.ru/uploads/images/2022/12/16/istock-185796098_c3d.jpg" class="rounded-circle dish-img me-3" alt="Оливье" loading="lazy">
             <div>
               <h5 class="card-title">Оливье</h5>
               <p class="card-text">Классический салат с ветчиной, овощами и майонезом.</p>
@@ -386,10 +468,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://s2.eda.ru/StaticContent/Photos/140124100744/150125224524/p_O.jpg" class="rounded-circle dish-img me-3" alt="Салат с тунцом" loading="lazy" width="120" height="120">
+            <img src="https://s2.eda.ru/StaticContent/Photos/140124100744/150125224524/p_O.jpg" class="rounded-circle dish-img me-3" alt="Салат с тунцом" loading="lazy">
             <div>
               <h5 class="card-title">Салат с тунцом</h5>
               <p class="card-text">Свежий салат с консервированным тунцом и овощами.</p>
@@ -398,10 +480,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://static.1000.menu/img/content-v2/ec/bb/64962/salat-krabovye-palochki-s-kukuruzoi-i-yaicom_1652806389_8_max.jpg" class="rounded-circle dish-img me-3" alt="Крабовый салат" loading="lazy" width="120" height="120">
+            <img src="https://static.1000.menu/img/content-v2/ec/bb/64962/salat-krabovye-palochki-s-kukuruzoi-i-yaicom_1652806389_8_max.jpg" class="rounded-circle dish-img me-3" alt="Крабовый салат" loading="lazy">
             <div>
               <h5 class="card-title">Крабовый салат</h5>
               <p class="card-text">Нежный салат с крабовыми палочками, кукурузой и рисом.</p>
@@ -410,10 +492,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/i?id=6189e3938e39c756f1366a8b9be963cbda68d6e0-3606203-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Винегрет" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/i?id=6189e3938e39c756f1366a8b9be963cbda68d6e0-3606203-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Винегрет" loading="lazy">
             <div>
               <h5 class="card-title">Винегрет</h5>
               <p class="card-text">Овощной салат с свеклой, морковью и солеными огурцами.</p>
@@ -424,13 +506,14 @@
       </div>
     </div>
   </div>
+
   <div id="zakuski" class="menu-section container">
     <h2 class="text-center mb-5">Закуски</h2>
     <div class="row g-4">
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80" class="rounded-circle dish-img me-3" alt="Брускетты" loading="lazy" width="120" height="120">
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&amp;ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80" class="rounded-circle dish-img me-3" alt="Брускетты" loading="lazy">
             <div>
               <h5 class="card-title">Брускетты</h5>
               <p class="card-text">Хрустящие тосты с томатами, базиликом и оливковым маслом.</p>
@@ -439,10 +522,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/i?id=70ef0764f1ca39c3cc1f7bffa5807d8466ddd06f-16443563-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Тартар" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/i?id=70ef0764f1ca39c3cc1f7bffa5807d8466ddd06f-16443563-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Тартар" loading="lazy">
             <div>
               <h5 class="card-title">Говяжий тартар</h5>
               <p class="card-text">Нежная говядина с каперсами, луком и соусом ворчестер.</p>
@@ -451,10 +534,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://i.pinimg.com/originals/db/01/7b/db017bc92cb960cb3dc6c66e4f15b226.jpg" class="rounded-circle dish-img me-3" alt="Креветки" loading="lazy" width="120" height="120">
+            <img src="https://i.pinimg.com/originals/db/01/7b/db017bc92cb960cb3dc6c66e4f15b226.jpg" class="rounded-circle dish-img me-3" alt="Креветки" loading="lazy">
             <div>
               <h5 class="card-title">Тигровые креветки</h5>
               <p class="card-text">Крупные креветки на гриле с чесночным соусом.</p>
@@ -463,10 +546,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/i?id=44702b0c69a9277c3c0977236f39ded8e58bfdd3-10613167-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Крылья" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/i?id=44702b0c69a9277c3c0977236f39ded8e58bfdd3-10613167-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Крылья" loading="lazy">
             <div>
               <h5 class="card-title">Куриные крылья</h5>
               <p class="card-text">Хрустящие крылышки в остром соусе с сельдереем.</p>
@@ -475,10 +558,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://triumph-hall.ru/upload/resize_cache/iblock/310/700_700_1/4xj677cfojdsgqrd1k32g6k35sz3ifiv.JPG" class="rounded-circle dish-img me-3" alt="Сырная тарелка" loading="lazy" width="120" height="120">
+            <img src="https://triumph-hall.ru/upload/resize_cache/iblock/310/700_700_1/4xj677cfojdsgqrd1k32g6k35sz3ifiv.JPG" class="rounded-circle dish-img me-3" alt="Сырная тарелка" loading="lazy">
             <div>
               <h5 class="card-title">Сырная тарелка</h5>
               <p class="card-text">Ассорти из французских сыров с орехами и медом.</p>
@@ -487,10 +570,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card dish-card h-100">
           <div class="card-body d-flex align-items-center p-3">
-            <img src="https://avatars.mds.yandex.net/i?id=3260263de88d44247db516eb826f370d5b7b91f1-5598230-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Капрезе" loading="lazy" width="120" height="120">
+            <img src="https://avatars.mds.yandex.net/i?id=3260263de88d44247db516eb826f370d5b7b91f1-5598230-images-thumbs&amp;n=13" class="rounded-circle dish-img me-3" alt="Капрезе" loading="lazy">
             <div>
               <h5 class="card-title">Капрезе</h5>
               <p class="card-text">Свежие томаты с моцареллой и базиликом под бальзамиком.</p>
@@ -501,10 +584,9 @@
       </div>
     </div>
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> 
   <script>
-
-
       document.addEventListener('DOMContentLoaded', function() {
         const menuLinks = document.querySelectorAll('#menuNav .nav-link');
         const menuSections = document.querySelectorAll('.menu-section');
@@ -517,8 +599,27 @@
             menuSections.forEach(section => section.classList.remove('active'));
             const targetId = this.getAttribute('data-target');
             document.getElementById(targetId).classList.add('active');
+            
+            // Плавная прокрутка к секции
+            document.getElementById(targetId).scrollIntoView({ 
+              behavior: 'smooth',
+              block: 'start'
+            });
           });
         });
+        
+        // Адаптация для мобильных устройств
+        function adjustForMobile() {
+          if (window.innerWidth < 768) {
+            document.getElementById('menuNav').classList.add('nav-pills-scroll');
+          } else {
+            document.getElementById('menuNav').classList.remove('nav-pills-scroll');
+          }
+        }
+        
+        // Вызываем при загрузке и изменении размера окна
+        adjustForMobile();
+        window.addEventListener('resize', adjustForMobile);
       });
   </script>
 </body>
